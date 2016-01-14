@@ -27,7 +27,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		4F3A6B5B1ACFBCC500CA65F7 /* libRCTFBLogin.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRCTFBLogin.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		4F3A6B5B1ACFBCC500CA65F7 /* libRCTStripeNative.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRCTStripeNative.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F3A6B9F1ACFC16C00CA65F7 /* RCTFBLogin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCTFBLogin.h; path = RCTFBLogin/RCTFBLogin.h; sourceTree = "<group>"; };
 		4F3A6BA01ACFC16C00CA65F7 /* RCTFBLogin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCTFBLogin.m; path = RCTFBLogin/RCTFBLogin.m; sourceTree = "<group>"; };
 		4F3A6BA11ACFC16C00CA65F7 /* RCTFBLoginManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCTFBLoginManager.h; path = RCTFBLogin/RCTFBLoginManager.h; sourceTree = "<group>"; };
@@ -70,7 +70,7 @@
 		4F3A6B5C1ACFBCC500CA65F7 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				4F3A6B5B1ACFBCC500CA65F7 /* libRCTFBLogin.a */,
+				4F3A6B5B1ACFBCC500CA65F7 /* libRCTStripeNative.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -78,9 +78,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		4F3A6B5A1ACFBCC500CA65F7 /* RCTFBLogin */ = {
+		4F3A6B5A1ACFBCC500CA65F7 /* RCTStripeNative */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4F3A6B6F1ACFBCC500CA65F7 /* Build configuration list for PBXNativeTarget "RCTFBLogin" */;
+			buildConfigurationList = 4F3A6B6F1ACFBCC500CA65F7 /* Build configuration list for PBXNativeTarget "RCTStripeNative" */;
 			buildPhases = (
 				4F3A6B571ACFBCC500CA65F7 /* Sources */,
 				4F3A6B581ACFBCC500CA65F7 /* Frameworks */,
@@ -90,9 +90,9 @@
 			);
 			dependencies = (
 			);
-			name = RCTFBLogin;
+			name = RCTStripeNative;
 			productName = RCTFBLogin;
-			productReference = 4F3A6B5B1ACFBCC500CA65F7 /* libRCTFBLogin.a */;
+			productReference = 4F3A6B5B1ACFBCC500CA65F7 /* libRCTStripeNative.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
@@ -109,7 +109,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 4F3A6B561ACFBCC500CA65F7 /* Build configuration list for PBXProject "RCTFBLogin" */;
+			buildConfigurationList = 4F3A6B561ACFBCC500CA65F7 /* Build configuration list for PBXProject "RCTStripeNative" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -121,7 +121,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				4F3A6B5A1ACFBCC500CA65F7 /* RCTFBLogin */,
+				4F3A6B5A1ACFBCC500CA65F7 /* RCTStripeNative */,
 			);
 		};
 /* End PBXProject section */
@@ -234,7 +234,7 @@
 					"$(SRCROOT)/example/node_modules/react-native/React/**",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = RCTStripeNative;
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -258,7 +258,7 @@
 					"$(SRCROOT)/example/node_modules/react-native/React/**",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = RCTStripeNative;
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -266,7 +266,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		4F3A6B561ACFBCC500CA65F7 /* Build configuration list for PBXProject "RCTFBLogin" */ = {
+		4F3A6B561ACFBCC500CA65F7 /* Build configuration list for PBXProject "RCTStripeNative" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4F3A6B6D1ACFBCC500CA65F7 /* Debug */,
@@ -275,7 +275,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4F3A6B6F1ACFBCC500CA65F7 /* Build configuration list for PBXNativeTarget "RCTFBLogin" */ = {
+		4F3A6B6F1ACFBCC500CA65F7 /* Build configuration list for PBXNativeTarget "RCTStripeNative" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4F3A6B701ACFBCC500CA65F7 /* Debug */,
