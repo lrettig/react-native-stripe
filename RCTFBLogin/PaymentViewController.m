@@ -7,7 +7,7 @@
 
 #import <Stripe/Stripe.h>
 
-#import "RCTFBLogin.h"
+#import "RCTStripeNative.h"
 #import "PaymentViewController.h"
 
 @interface PaymentViewController () <STPPaymentCardTextFieldDelegate>

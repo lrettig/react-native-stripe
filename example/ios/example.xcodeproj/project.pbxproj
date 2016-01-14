@@ -22,6 +22,7 @@
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		D81E587A1C4840F200C114CB /* Stripe.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D81E58791C4840F200C114CB /* Stripe.framework */; };
+		D81E58D91C485F3E00C114CB /* libRCTStripeNative.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D81E58D41C485F0000C114CB /* libRCTStripeNative.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -102,6 +103,13 @@
 			remoteGlobalIDString = 58B5119B1A9E6C1200147676;
 			remoteInfo = RCTText;
 		};
+		D81E58D31C485F0000C114CB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FC384F51BF48D1800C3FFFA /* RCTStripeNative.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4F3A6B5B1ACFBCC500CA65F7;
+			remoteInfo = RCTStripeNative;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -141,6 +149,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D81E587A1C4840F200C114CB /* Stripe.framework in Frameworks */,
+				D81E58D91C485F3E00C114CB /* libRCTStripeNative.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
@@ -314,6 +323,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		D81E58CA1C485F0000C114CB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D81E58D41C485F0000C114CB /* libRCTStripeNative.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -403,6 +420,10 @@
 				{
 					ProductGroup = 139105B71AF99BAD00B5F7CC /* Products */;
 					ProjectRef = 139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */;
+				},
+				{
+					ProductGroup = D81E58CA1C485F0000C114CB /* Products */;
+					ProjectRef = 4FC384F51BF48D1800C3FFFA /* RCTStripeNative.xcodeproj */;
 				},
 				{
 					ProductGroup = 832341B11AAA6A8300B99B32 /* Products */;
@@ -498,6 +519,13 @@
 			fileType = archive.ar;
 			path = libRCTText.a;
 			remoteRef = 832341B41AAA6A8300B99B32 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D81E58D41C485F0000C114CB /* libRCTStripeNative.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTStripeNative.a;
+			remoteRef = D81E58D31C485F0000C114CB /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */

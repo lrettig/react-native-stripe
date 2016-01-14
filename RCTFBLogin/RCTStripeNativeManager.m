@@ -9,7 +9,7 @@
 
 @implementation RCTStripeNativeManager
 {
-  RCTFBLogin *_fbLogin;
+  RCTStripeNative *_fbLogin;
 //  NSArray *_defaultPermissions;
 }
 
@@ -17,7 +17,7 @@
 
 - (UIView *)view
 {
-  _fbLogin = [[RCTFBLogin alloc] init];
+  _fbLogin = [[RCTStripeNative alloc] init];
 //  _defaultPermissions = @[@"email"];
 
 //  [_fbLogin setPermissions:_defaultPermissions];
