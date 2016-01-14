@@ -9,7 +9,7 @@ var {
   DeviceEventEmitter,
 } = React;
 
-var { FBLoginManager } = NativeModules;
+var { StripeNativeManager } = NativeModules;
 
 var FBLogin = React.createClass({
   statics: {
@@ -89,7 +89,7 @@ var FBLogin = React.createClass({
   },
 });
 
-var RCTFBLogin = requireNativeComponent('RCTFBLogin', FBLogin);
+var RCTFBLogin = requireNativeComponent('RCTStripeNative', FBLogin);
 
 var styles = StyleSheet.create({
   base: {

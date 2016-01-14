@@ -1,33 +1,40 @@
 {
-  "name": "react-native-facebook-login",
-  "version": "1.0.2",
-  "description": "React Native wrapper for native iOS Facebook SDK login button and manager",
-  "main": "index",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "author": {
+    "name": "Lane Rettig"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/magus/react-native-facebook-login"
+  "bugs": {
+    "url": "https://github.com/lrettig/react-native-stripe/issues"
   },
+  "dependencies": {},
+  "description": "React Native wrapper for native iOS Stripe SDK",
+  "devDependencies": {},
+  "directories": {},
+  "homepage": "https://github.com/lrettig/react-native-stripe",
+  "installable": true,
   "keywords": [
+    "android",
+    "ios",
+    "login",
+    "native",
     "react",
     "react-component",
     "react-native",
-    "native",
-    "ios",
-    "android",
-    "facebook",
-    "login",
-    "sdk"
+    "sdk",
+    "stripe"
   ],
-  "author": "Noah Jorgenson",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/magus/react-native-facebook-login/issues"
-  },
-  "homepage": "https://github.com/magus/react-native-facebook-login",
+  "main": "index",
+  "name": "react-native-stripe",
+  "optionalDependencies": {},
   "peerDependencies": {
     "react-native": ">=0.14.2"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lrettig/react-native-stripe"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "1.0.0"
 }

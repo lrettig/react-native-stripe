@@ -1,11 +1,11 @@
 #import <Stripe/Stripe.h>
 
-#import "RCTFBLogin.h"
+#import "RCTStripeNative.h"
 #import "RCTLog.h"
 #import "ShippingManager.h"
 #import "PaymentViewController.h"
 
-@implementation RCTFBLogin
+@implementation RCTStripeNative
 {
     UIButton *_b;
     UIButton *_c;

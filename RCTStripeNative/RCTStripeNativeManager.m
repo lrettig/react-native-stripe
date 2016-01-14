@@ -4,12 +4,12 @@
 #import "RCTEventDispatcher.h"
 #import "RCTLog.h"
 
-#import "RCTFBLogin.h"
-#import "RCTFBLoginManager.h"
+#import "RCTStripeNative.h"
+#import "RCTStripeNativeManager.h"
 
-@implementation RCTFBLoginManager
+@implementation RCTStripeNativeManager
 {
-  RCTFBLogin *_fbLogin;
+  RCTStripeNative *_fbLogin;
 //  NSArray *_defaultPermissions;
 }
 
@@ -17,7 +17,7 @@
 
 - (UIView *)view
 {
-  _fbLogin = [[RCTFBLogin alloc] init];
+  _fbLogin = [[RCTStripeNative alloc] init];
 //  _defaultPermissions = @[@"email"];
 
 //  [_fbLogin setPermissions:_defaultPermissions];
@@ -32,7 +32,13 @@
 
 //RCT_EXPORT_VIEW_PROPERTY(permissions, NSStringArray);
 //RCT_EXPORT_VIEW_PROPERTY(loginBehavior, NSNumber);
-RCT_EXPORT_MODULE();
+//RCT_EXPORT_MODULE();
+
+extern __attribute__((visibility("default"))) void RCTRegisterModule(Class);
++ (NSString *)moduleName { return @""; }
++ (void)load {
+    RCTRegisterModule(self);
+}
 
 //- (NSDictionary *)constantsToExport {
 //  return @{

@@ -4,7 +4,7 @@
 #import "ShippingManager.h"
 #import "PaymentViewController.h"
 
-@interface RCTFBLogin : RCTView<PaymentViewControllerDelegate, PKPaymentAuthorizationViewControllerDelegate>
+@interface RCTStripeNative : RCTView<PaymentViewControllerDelegate, PKPaymentAuthorizationViewControllerDelegate>
 
 @property (nonatomic, assign) NSArray *permissions;
 @property (nonatomic) ShippingManager *shippingManager;
