@@ -4,10 +4,10 @@
 #import "RCTEventDispatcher.h"
 #import "RCTLog.h"
 
-#import "RCTFBLogin.h"
-#import "RCTFBLoginManager.h"
+#import "RCTStripeNative.h"
+#import "RCTStripeNativeManager.h"
 
-@implementation RCTFBLoginManager
+@implementation RCTStripeNativeManager
 {
   RCTFBLogin *_fbLogin;
 //  NSArray *_defaultPermissions;
