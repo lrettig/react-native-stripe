@@ -9,7 +9,7 @@ var {
   DeviceEventEmitter,
 } = React;
 
-var { FBLoginManager } = NativeModules;
+var { StripeNativeManager } = NativeModules;
 
 var FBLogin = React.createClass({
   statics: {

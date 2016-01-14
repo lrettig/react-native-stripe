@@ -28,15 +28,15 @@
 
 /* Begin PBXFileReference section */
 		4F3A6B5B1ACFBCC500CA65F7 /* libRCTStripeNative.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRCTStripeNative.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		4F3A6B9F1ACFC16C00CA65F7 /* RCTStripeNative.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCTStripeNative.h; path = RCTFBLogin/RCTStripeNative.h; sourceTree = "<group>"; };
-		4F3A6BA01ACFC16C00CA65F7 /* RCTStripeNative.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCTStripeNative.m; path = RCTFBLogin/RCTStripeNative.m; sourceTree = "<group>"; };
-		4F3A6BA11ACFC16C00CA65F7 /* RCTStripeNativeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCTStripeNativeManager.h; path = RCTFBLogin/RCTStripeNativeManager.h; sourceTree = "<group>"; };
-		4F3A6BA21ACFC16C00CA65F7 /* RCTStripeNativeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCTStripeNativeManager.m; path = RCTFBLogin/RCTStripeNativeManager.m; sourceTree = "<group>"; };
+		4F3A6B9F1ACFC16C00CA65F7 /* RCTStripeNative.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCTStripeNative.h; path = RCTStripeNative/RCTStripeNative.h; sourceTree = "<group>"; };
+		4F3A6BA01ACFC16C00CA65F7 /* RCTStripeNative.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCTStripeNative.m; path = RCTStripeNative/RCTStripeNative.m; sourceTree = "<group>"; };
+		4F3A6BA11ACFC16C00CA65F7 /* RCTStripeNativeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCTStripeNativeManager.h; path = RCTStripeNative/RCTStripeNativeManager.h; sourceTree = "<group>"; };
+		4F3A6BA21ACFC16C00CA65F7 /* RCTStripeNativeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCTStripeNativeManager.m; path = RCTStripeNative/RCTStripeNativeManager.m; sourceTree = "<group>"; };
 		D81E58111C48157200C114CB /* Stripe.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Stripe.framework; sourceTree = "<group>"; };
-		D81E58811C48498600C114CB /* PaymentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaymentViewController.h; path = RCTFBLogin/PaymentViewController.h; sourceTree = "<group>"; };
-		D81E58821C48498600C114CB /* PaymentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaymentViewController.m; path = RCTFBLogin/PaymentViewController.m; sourceTree = "<group>"; };
-		D81E58831C48498600C114CB /* ShippingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShippingManager.h; path = RCTFBLogin/ShippingManager.h; sourceTree = "<group>"; };
-		D81E58841C48498600C114CB /* ShippingManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ShippingManager.m; path = RCTFBLogin/ShippingManager.m; sourceTree = "<group>"; };
+		D81E58811C48498600C114CB /* PaymentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaymentViewController.h; path = RCTStripeNative/PaymentViewController.h; sourceTree = "<group>"; };
+		D81E58821C48498600C114CB /* PaymentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaymentViewController.m; path = RCTStripeNative/PaymentViewController.m; sourceTree = "<group>"; };
+		D81E58831C48498600C114CB /* ShippingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShippingManager.h; path = RCTStripeNative/ShippingManager.h; sourceTree = "<group>"; };
+		D81E58841C48498600C114CB /* ShippingManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ShippingManager.m; path = RCTStripeNative/ShippingManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,7 +91,7 @@
 			dependencies = (
 			);
 			name = RCTStripeNative;
-			productName = RCTFBLogin;
+			productName = RCTStripeNative;
 			productReference = 4F3A6B5B1ACFBCC500CA65F7 /* libRCTStripeNative.a */;
 			productType = "com.apple.product-type.library.static";
 		};
