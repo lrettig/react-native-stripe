@@ -12,14 +12,13 @@
 
 @protocol PaymentViewControllerDelegate<NSObject>
 
-- (void)paymentViewController:(PaymentViewController *)controller didFinish:(NSError *)error;
+- (void)paymentViewController:(PaymentViewController *)controller didFinishWithToken:(NSString *)token error:(NSError *)error;
 
 @end
 
 @interface PaymentViewController : UIViewController
 
 @property (nonatomic) NSDecimalNumber *amount;
-//@property (nonatomic, weak) id<STPBackendCharging> backendCharger;
 @property (nonatomic, weak) id<PaymentViewControllerDelegate> delegate;
 
 @end
