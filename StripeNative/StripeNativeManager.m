@@ -29,7 +29,7 @@ typedef NS_ENUM(NSInteger, SNErrorCode) {
 
 - (id)init {
     if ((self = [super init])) {
-        rootViewController = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
+        // NOP
     }
     return self;
 }
@@ -66,7 +66,8 @@ RCT_EXPORT_MODULE();
         [summaryItems addObject:item];
     }
 
-    PKPaymentRequest *paymentRequest = [[PKPaymentRequest alloc] init];
+//    PKPaymentRequest *paymentRequest = [[PKPaymentRequest alloc] init];
+    PKPaymentRequest *paymentRequest = [Stripe paymentRequestWithMerchantIdentifier:applePayMerchantId];
     [paymentRequest setRequiredShippingAddressFields:PKAddressFieldPostalAddress];
     [paymentRequest setRequiredBillingAddressFields:PKAddressFieldPostalAddress];
 //        paymentRequest.shippingMethods = [shippingManager defaultShippingMethods];
@@ -96,7 +97,9 @@ RCT_EXPORT_MODULE();
             promiseRejector(error);
         }
         else {
-            promiseResolver(@[token]);
+            // Convert token to string
+            NSString *tokenString = [NSString stringWithFormat:@"%@", token];
+            promiseResolver(@[tokenString]);
         }
     }];
 }
@@ -135,9 +138,9 @@ RCT_EXPORT_MODULE();
 
 # pragma mark - Card form
 
-- (void)beginCustomPaymentWithAmount:(float)amount {
+- (void)beginCustomPaymentWithAmount:(NSString *)amount {
     PaymentViewController *paymentViewController = [[PaymentViewController alloc] initWithNibName:nil bundle:nil];
-//    paymentViewController.amount = amount;
+    paymentViewController.amount = amount;
     paymentViewController.delegate = self;
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:paymentViewController];
     [rootViewController presentViewController:navController animated:YES completion:nil];
@@ -148,7 +151,9 @@ RCT_EXPORT_MODULE();
         if (error) {
             promiseRejector(error);
         } else {
-            promiseResolver(@[token]);
+            // Convert token to string
+            NSString *tokenString = [NSString stringWithFormat:@"%@", token];
+            promiseResolver(@[tokenString]);
         }
     }];
 }
@@ -159,6 +164,7 @@ RCT_EXPORT_METHOD(initWithStripePublishableKey:(NSString *)stripeKey applePayMer
     _initialized = TRUE;
     applePayMerchantId = merchantId;
     [Stripe setDefaultPublishableKey:stripeKey];
+    rootViewController = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
 }
 
 RCT_EXPORT_METHOD(canMakePayments: (RCTPromiseResolveBlock)resolve rejector:(RCTPromiseRejectBlock)reject) {
@@ -192,14 +198,9 @@ RCT_EXPORT_METHOD(createTokenWithApplePay:(NSArray *)items shippingMethods:(NSAr
 RCT_EXPORT_METHOD(createTokenWithCardForm:(NSArray *)items resolver:(RCTPromiseResolveBlock)resolve rejector:(RCTPromiseRejectBlock)reject) {
     promiseResolver = resolve;
     promiseRejector = reject;
-
-    float total = 0;
-    for (NSDictionary *i in items) {
-        NSLog(@"adding %@", i[@"amount"]);
-        total += [i[@"amount"] floatValue];
-    }
-    NSLog(@"Total: %.2f", total);
-    [self beginCustomPaymentWithAmount:total];
+    
+    // Get total from last item
+    [self beginCustomPaymentWithAmount:[[items lastObject][@"amount"] stringValue]];
 }
 
 RCT_EXPORT_METHOD(success:resolver:(RCTPromiseResolveBlock)resolve rejector:(RCTPromiseRejectBlock)reject)

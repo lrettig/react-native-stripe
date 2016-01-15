@@ -6,7 +6,7 @@ const APPLEPAY_ID = "merchant.com.breezebrand.lanerettig";
 
 const SOME_ITEMS = [
   {
-    label: "Cool Llama T-shirt",
+    label: "Llama Kitty T-shirt",
     amount: 19.99,
   },
   {
@@ -15,12 +15,8 @@ const SOME_ITEMS = [
   },
 ];
 
-// Make react global
-//window.React = React;
-
 var {
   AppRegistry,
-  //NavigatorIOS,
   StyleSheet,
   Text,
   TouchableHighlight,
@@ -39,7 +35,11 @@ var AppEntry = React.createClass({
     }
   },
 
-  applePay: function () {
+  applePaySuccess: function () { this.applePay(true) },
+
+  applePayFailure: function () { this.applePay(false) },
+
+  applePay: function (success) {
     if (!StripeNative.canMakePayments()) {
       this.setState({error: "Apple Pay is not enabled on this device"});
     }
@@ -47,50 +47,51 @@ var AppEntry = React.createClass({
       this.setState({error: "Apple Pay is enabled but no card is configured"});
     }
     else {
-      StripeNative.createTokenWithApplePay(SOME_ITEMS, false).then(function (token) {
-        alert("Success! Got token: " + token);
+      StripeNative.createTokenWithApplePay(SOME_ITEMS, "Llama Kitty Shop", false).then(function (token) {
+        alert("Got token: " + token);
 
-        // Create charge here
+        // (Create charge here)
 
-        StripeNative.success();
+        (success ? StripeNative.success : StripeNative.failure)();
       }, function (err) {
-        this.setState({error: err});
-
-      })
+        console.log("Got err: " + JSON.stringify(err));
+        this.setState({error: "Error getting token"});
+      }.bind(this))
     }
   },
 
   cardForm: function () {
     StripeNative.createTokenWithCardForm(SOME_ITEMS).then(function (token) {
-      alert("Success! Got token: " + token);
+      alert("Got token: " + token);
 
-      // Create charge here
+      // (Create charge here)
 
     }, function (err) {
-      this.setState({error: err});
-    })
+      this.setState({error: "Error getting token"});
+    }.bind(this))
   },
 
   render: function () {
     return (
-      //<NavigatorIOS
-      //  style={styles.container}
-      //  itemWrapperStyle={styles.allPages}
-      //  initialRoute={{
-      //    title: 'Login',
-      //    component: Login,
-      //  }}
-      ///>
       <View style={styles.container}>
         <Text style={styles.error}>
           {this.state.error}
         </Text>
+        <Text />
         <TouchableHighlight
           style={styles.selectButton}
-          onPress={this.applePay}
+          onPress={this.applePaySuccess}
           underlayColor="#99D9F4">
           <Text style={styles.buttonText}>
-            Try Apple Pay
+            Try Apple Pay (Success)
+          </Text>
+        </TouchableHighlight>
+        <TouchableHighlight
+          style={styles.selectButton}
+          onPress={this.applePayFailure}
+          underlayColor="#99D9F4">
+          <Text style={styles.buttonText}>
+            Try Apple Pay (Failure)
           </Text>
         </TouchableHighlight>
         <TouchableHighlight
@@ -115,6 +116,7 @@ var styles = StyleSheet.create({
   },
   error: {
     color: "red",
+    textAlign: "center",
   },
   selectButton: {
     height: 36,
