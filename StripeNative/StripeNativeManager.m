@@ -149,14 +149,14 @@ RCT_EXPORT_MODULE();
     [rootViewController presentViewController:navController animated:YES completion:nil];
 }
 
-- (void)paymentViewController:(PaymentViewController *)controller didFinishWithToken:(STPToken *)token error:(NSError *)error {
+- (void)paymentViewController:(PaymentViewController *)controller didFinishWithToken:(STPToken *)token email:(NSString *)email error:(NSError *)error {
     [rootViewController dismissViewControllerAnimated:YES completion:^{
         if (error) {
             promiseRejector(error);
         } else {
             // Convert token to string
             NSString *tokenString = [NSString stringWithFormat:@"%@", token];
-            promiseResolver(@[tokenString]);
+            promiseResolver(@[tokenString, email]);
         }
     }];
 }

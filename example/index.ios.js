@@ -67,8 +67,12 @@ var AppEntry = React.createClass({
   },
 
   cardForm: function () {
-    StripeNative.createTokenWithCardForm(SOME_ITEMS).then(function (token) {
+    StripeNative.createTokenWithCardForm(SOME_ITEMS).then(function (obj) {
+      var token = obj[0],
+        email = obj[1];
+
       alert("Got token: " + token);
+      alert("Got email: " + email);
 
       // (Create charge here)
 

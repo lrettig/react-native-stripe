@@ -12,7 +12,7 @@
 
 @protocol PaymentViewControllerDelegate<NSObject>
 
-- (void)paymentViewController:(PaymentViewController *)controller didFinishWithToken:(STPToken *)token error:(NSError *)error;
+- (void)paymentViewController:(PaymentViewController *)controller didFinishWithToken:(STPToken *)token email:(NSString *)email error:(NSError *)error;
 
 @end
 
