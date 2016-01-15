@@ -1,6 +1,7 @@
 # Xcode
 !**/*.xcodeproj
 !**/*.pbxproj
+!**/*.xcworkspace
 !**/*.xcworkspacedata
 !**/*.xcsettings
 !**/*.xcscheme
@@ -123,4 +124,4 @@ atlassian-ide-plugin.xml
 com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
-StripeNative.xcodeproj/project.xcworkspace
+

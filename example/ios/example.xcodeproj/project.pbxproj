@@ -103,6 +103,13 @@
 			remoteGlobalIDString = 58B5119B1A9E6C1200147676;
 			remoteInfo = RCTText;
 		};
+		D81E59211C496F2600C114CB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FC384F51BF48D1800C3FFFA /* StripeNative.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4F3A6B5B1ACFBCC500CA65F7;
+			remoteInfo = StripeNative;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -318,6 +325,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		D81E59141C496F2600C114CB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D81E59221C496F2600C114CB /* libStripeNative.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -424,6 +439,10 @@
 					ProductGroup = 146834001AC3E56700842450 /* Products */;
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
 				},
+				{
+					ProductGroup = D81E59141C496F2600C114CB /* Products */;
+					ProjectRef = 4FC384F51BF48D1800C3FFFA /* StripeNative.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -502,6 +521,13 @@
 			fileType = archive.ar;
 			path = libRCTText.a;
 			remoteRef = 832341B41AAA6A8300B99B32 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D81E59221C496F2600C114CB /* libStripeNative.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libStripeNative.a;
+			remoteRef = D81E59211C496F2600C114CB /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */

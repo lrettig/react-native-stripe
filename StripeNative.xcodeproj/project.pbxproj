@@ -26,11 +26,11 @@
 
 /* Begin PBXFileReference section */
 		4F3A6B5B1ACFBCC500CA65F7 /* libStripeNative.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libStripeNative.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		4F3A6BA11ACFC16C00CA65F7 /* StripeNativeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StripeNativeManager.h; path = RCTStripeNative/StripeNativeManager.h; sourceTree = "<group>"; };
-		4F3A6BA21ACFC16C00CA65F7 /* StripeNativeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StripeNativeManager.m; path = RCTStripeNative/StripeNativeManager.m; sourceTree = "<group>"; };
+		4F3A6BA11ACFC16C00CA65F7 /* StripeNativeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StripeNativeManager.h; path = StripeNative/StripeNativeManager.h; sourceTree = "<group>"; };
+		4F3A6BA21ACFC16C00CA65F7 /* StripeNativeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StripeNativeManager.m; path = StripeNative/StripeNativeManager.m; sourceTree = "<group>"; };
 		D81E58111C48157200C114CB /* Stripe.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Stripe.framework; sourceTree = "<group>"; };
-		D81E58811C48498600C114CB /* PaymentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaymentViewController.h; path = RCTStripeNative/PaymentViewController.h; sourceTree = "<group>"; };
-		D81E58821C48498600C114CB /* PaymentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaymentViewController.m; path = RCTStripeNative/PaymentViewController.m; sourceTree = "<group>"; };
+		D81E58811C48498600C114CB /* PaymentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaymentViewController.h; path = StripeNative/PaymentViewController.h; sourceTree = "<group>"; };
+		D81E58821C48498600C114CB /* PaymentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaymentViewController.m; path = StripeNative/PaymentViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,7 +81,7 @@
 			dependencies = (
 			);
 			name = StripeNative;
-			productName = RCTStripeNative;
+			productName = StripeNative;
 			productReference = 4F3A6B5B1ACFBCC500CA65F7 /* libStripeNative.a */;
 			productType = "com.apple.product-type.library.static";
 		};
