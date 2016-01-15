@@ -47,8 +47,14 @@ var AppEntry = React.createClass({
       this.setState({error: "Apple Pay is enabled but no card is configured"});
     }
     else {
-      StripeNative.createTokenWithApplePay(SOME_ITEMS, "Llama Kitty Shop", false).then(function (token) {
+      StripeNative.createTokenWithApplePay(SOME_ITEMS, "Llama Kitty Shop", false).then(function (obj) {
+        var token = obj[0],
+          shippingInfo = obj[1],
+          billingInfo = obj[2];
+
         alert("Got token: " + token);
+        console.log("Shipping info: " + JSON.stringify(shippingInfo));
+        console.log("Billing info: " + JSON.stringify(billingInfo));
 
         // (Create charge here)
 
@@ -92,6 +98,14 @@ var AppEntry = React.createClass({
           underlayColor="#99D9F4">
           <Text style={styles.buttonText}>
             Try Apple Pay (Failure)
+          </Text>
+        </TouchableHighlight>
+        <TouchableHighlight
+          style={styles.selectButton}
+          onPress={() => StripeNative.openPaymentSetup()}
+          underlayColor="#99D9F4">
+          <Text style={styles.buttonText}>
+            Open Apple Pay Card Setup
           </Text>
         </TouchableHighlight>
         <TouchableHighlight

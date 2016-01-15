@@ -6,6 +6,8 @@
 #import "PaymentViewController.h"
 #import "StripeNativeManager.h"
 
+@import PassKit;
+
 NSString *const StripeNativeDomain = @"com.lockehart.lib";
 typedef NS_ENUM(NSInteger, SNErrorCode) {
     SNOtherError = 10, // Generic error
@@ -18,6 +20,7 @@ typedef NS_ENUM(NSInteger, SNErrorCode) {
     NSString *stripePublishableKey;
     NSString *applePayMerchantId;
     UIViewController *rootViewController;
+    PKPaymentSummaryItem *summaryItem;
     
     // Save these promises so we can resolve them later.
     RCTPromiseResolveBlock promiseResolver;
@@ -43,6 +46,8 @@ RCT_EXPORT_MODULE();
 
 #pragma mark - Private methods
 
+#pragma mark - Apple Pay
+
 - (BOOL)_canMakePayments {
     return [PKPaymentAuthorizationViewController canMakePayments];
 }
@@ -52,7 +57,10 @@ RCT_EXPORT_MODULE();
     return [PKPaymentAuthorizationViewController canMakePaymentsUsingNetworks:paymentNetworks];
 }
 
-#pragma mark - Apple Pay
+- (void)_openPaymentSetup {
+    PKPassLibrary* lib = [[PKPassLibrary alloc] init];
+    [lib openPaymentSetup];
+}
 
 - (void)_beginApplePayWithItems:(NSArray *)items shippingMethods:(NSArray *)shippingMethods error:(NSError**)error {
     // Setup product, discount, shipping and total
@@ -65,11 +73,12 @@ RCT_EXPORT_MODULE();
         item.amount = [NSDecimalNumber decimalNumberWithString:i[@"amount"]];
         [summaryItems addObject:item];
     }
+    summaryItem = [summaryItems lastObject];
 
 //    PKPaymentRequest *paymentRequest = [[PKPaymentRequest alloc] init];
     PKPaymentRequest *paymentRequest = [Stripe paymentRequestWithMerchantIdentifier:applePayMerchantId];
-    [paymentRequest setRequiredShippingAddressFields:PKAddressFieldPostalAddress];
-    [paymentRequest setRequiredBillingAddressFields:PKAddressFieldPostalAddress];
+    [paymentRequest setRequiredShippingAddressFields:PKAddressFieldPostalAddress|PKAddressFieldEmail|PKAddressFieldName];
+    [paymentRequest setRequiredBillingAddressFields:PKAddressFieldPostalAddress|PKAddressFieldEmail|PKAddressFieldName];
 //        paymentRequest.shippingMethods = [shippingManager defaultShippingMethods];
     paymentRequest.paymentSummaryItems = summaryItems;
     paymentRequest.merchantIdentifier = applePayMerchantId;
@@ -97,9 +106,29 @@ RCT_EXPORT_MODULE();
             promiseRejector(error);
         }
         else {
-            // Convert token to string
-            NSString *tokenString = [NSString stringWithFormat:@"%@", token];
-            promiseResolver(@[tokenString]);
+            // Convert token to string and add additional requested information.
+            promiseResolver(@[[NSString stringWithFormat:@"%@", token],
+                              @{
+                                  @"street": payment.shippingContact.postalAddress.street,
+                                  @"city": payment.shippingContact.postalAddress.city,
+                                  @"state": payment.shippingContact.postalAddress.state,
+                                  @"country": payment.shippingContact.postalAddress.country,
+                                  @"ISOCountryCode": payment.shippingContact.postalAddress.ISOCountryCode,
+                                  @"postalCode" : payment.shippingContact.postalAddress.postalCode,
+                                  @"emailAddress" : payment.shippingContact.emailAddress ? payment.shippingContact.emailAddress : @"",
+                                  @"phoneNumber": payment.shippingContact.phoneNumber ? [payment.shippingContact.phoneNumber stringValue] : @"",
+                                  },
+                              @{
+                                  @"street": payment.billingContact.postalAddress.street,
+                                  @"city": payment.billingContact.postalAddress.city,
+                                  @"state": payment.billingContact.postalAddress.state,
+                                  @"country": payment.billingContact.postalAddress.country,
+                                  @"ISOCountryCode": payment.billingContact.postalAddress.ISOCountryCode,
+                                  @"postalCode" : payment.billingContact.postalAddress.postalCode,
+                                  @"emailAddress" : payment.billingContact.emailAddress ? payment.billingContact.emailAddress : @"",
+                                  @"phoneNumber": payment.billingContact.phoneNumber ? [payment.billingContact.phoneNumber stringValue] : @"",
+                                  },
+                              ]);
         }
     }];
 }
@@ -109,32 +138,6 @@ RCT_EXPORT_MODULE();
     NSLog(@"Payment Authorization Controller dismissed.");
     [rootViewController dismissViewControllerAnimated:YES completion:nil];
 }
-
-// These may be useful in future - when adding support for shipping
-
-//- (void)paymentAuthorizationViewController:(PKPaymentAuthorizationViewController *)controller didSelectShippingAddress:(ABRecordRef)address completion:(void (^)(PKPaymentAuthorizationStatus, NSArray<PKShippingMethod *> * _Nonnull, NSArray<PKPaymentSummaryItem *> * _Nonnull))completion {
-//    [self.shippingManager fetchShippingCostsForAddress:address
-//                                            completion:^(NSArray *shippingMethods, NSError *error) {
-//                                                if (error) {
-//                                                    completion(PKPaymentAuthorizationStatusFailure, @[], @[]);
-//                                                    return;
-//                                                }
-//                                                completion(PKPaymentAuthorizationStatusSuccess,
-//                                                           shippingMethods,
-//                                                           [self summaryItemsForShippingMethod:shippingMethods.firstObject]);
-//                                            }];
-//}
-//
-//- (void)paymentAuthorizationViewController:(PKPaymentAuthorizationViewController *)controller didSelectShippingMethod:(PKShippingMethod *)shippingMethod completion:(void (^)(PKPaymentAuthorizationStatus, NSArray<PKPaymentSummaryItem *> * _Nonnull))completion {
-//    completion(PKPaymentAuthorizationStatusSuccess, [self summaryItemsForShippingMethod:shippingMethod]);
-//}
-//
-//- (NSArray *)summaryItemsForShippingMethod:(PKShippingMethod *)shippingMethod {
-//    PKPaymentSummaryItem *shirtItem = [PKPaymentSummaryItem summaryItemWithLabel:@"Cool Shirt" amount:[NSDecimalNumber decimalNumberWithString:@"10.00"]];
-//    NSDecimalNumber *total = [shirtItem.amount decimalNumberByAdding:shippingMethod.amount];
-//    PKPaymentSummaryItem *totalItem = [PKPaymentSummaryItem summaryItemWithLabel:@"Stripe Shirt Shop" amount:total];
-//    return @[shirtItem, shippingMethod, totalItem];
-//}
 
 # pragma mark - Card form
 
@@ -173,6 +176,10 @@ RCT_EXPORT_METHOD(canMakePayments: (RCTPromiseResolveBlock)resolve rejector:(RCT
 
 RCT_EXPORT_METHOD(canMakePaymentsUsingNetworks: (RCTPromiseResolveBlock)resolve rejector:(RCTPromiseRejectBlock)reject) {
     resolve(@[[NSNumber numberWithBool:[self _canMakePaymentsUsingNetworks]]]);
+}
+
+RCT_EXPORT_METHOD(openPaymentSetup) {
+    [self _openPaymentSetup];
 }
 
 RCT_EXPORT_METHOD(createTokenWithApplePay:(NSArray *)items shippingMethods:(NSArray *)shippingMethods fallbackOnCardForm:(BOOL)fallback resolver:(RCTPromiseResolveBlock)resolve rejector:(RCTPromiseRejectBlock)reject) {

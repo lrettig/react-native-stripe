@@ -4,6 +4,8 @@ var { StripeNativeManager } = NativeModules;
 var NativeStripe = {
   canMakePayments: StripeNativeManager.canMakePayments,
   canMakePaymentsUsingNetworks: StripeNativeManager.canMakePaymentsUsingNetworks,
+  createTokenWithCardForm: StripeNativeManager.createTokenWithCardForm,
+  openPaymentSetup: StripeNativeManager.openPaymentSetup,
 
   init: (stripePublishableKey, applePayMerchantId) => {
     return StripeNativeManager.initWithStripePublishableKey(stripePublishableKey, applePayMerchantId);
@@ -26,8 +28,6 @@ var NativeStripe = {
 
     return StripeNativeManager.createTokenWithApplePay(summaryItems, [], fallbackOnCardForm);
   },
-
-  createTokenWithCardForm: StripeNativeManager.createTokenWithCardForm,
 
   success: () => {
     return new Promise(function (resolve, reject) {
