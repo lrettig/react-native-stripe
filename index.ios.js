@@ -18,11 +18,11 @@ var NativeStripe = {
     //var summaryItems = JSON.parse(JSON.stringify(items));
 
     // Set amounts as strings
-    //var summaryItems = items.map(function (i) {
-    //  i.amount = i.amount.toString();
-    //});
+    var summaryItems = items.map(function (i) {
+      i.amount = i.amount.toString();
+    });
 
-    return StripeNativeManager.createChargeWithApplePay(items, [], fallbackOnCardForm);
+    return StripeNativeManager.createTokenWithApplePay(summaryItems, [], fallbackOnCardForm);
   },
 
   createTokenWithCardForm: StripeNativeManager.createTokenWithCardForm,

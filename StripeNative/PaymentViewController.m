@@ -25,7 +25,7 @@
     }
 
     // Setup save button
-    NSString *title = [NSString stringWithFormat:@"Pay $%@", self.amount];
+    NSString *title = [NSString stringWithFormat:@"Pay $%.2f", self.amount];
     UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStyleDone target:self action:@selector(save:)];
     UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel:)];
     saveButton.enabled = NO;
@@ -51,7 +51,6 @@
     CGFloat padding = 15;
     CGFloat width = CGRectGetWidth(self.view.frame) - (padding * 2);
     self.paymentTextField.frame = CGRectMake(padding, padding, width, 44);
-    
     self.activityIndicator.center = self.view.center;
 }
 
@@ -71,7 +70,7 @@
         NSError *error = [NSError errorWithDomain:StripeDomain
                                              code:STPInvalidRequestError
                                          userInfo:@{
-                                                    NSLocalizedDescriptionKey: @"Please specify a Stripe Publishable Key in Constants.m"
+                                                    NSLocalizedDescriptionKey: @"Please specify a Stripe Publishable Key"
                                                     }];
         [self.delegate paymentViewController:self didFinishWithToken:nil error:error];
         return;

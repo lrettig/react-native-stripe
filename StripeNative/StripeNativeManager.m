@@ -135,9 +135,9 @@ RCT_EXPORT_MODULE();
 
 # pragma mark - Card form
 
-- (void)beginCustomPaymentWithAmount:(NSDecimalNumber*)amount {
+- (void)beginCustomPaymentWithAmount:(float)amount {
     PaymentViewController *paymentViewController = [[PaymentViewController alloc] initWithNibName:nil bundle:nil];
-    paymentViewController.amount = amount;
+//    paymentViewController.amount = amount;
     paymentViewController.delegate = self;
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:paymentViewController];
     [rootViewController presentViewController:navController animated:YES completion:nil];
@@ -161,11 +161,11 @@ RCT_EXPORT_METHOD(initWithStripePublishableKey:(NSString *)stripeKey applePayMer
     [Stripe setDefaultPublishableKey:stripeKey];
 }
 
-RCT_EXPORT_METHOD(canMakePayments: resolver:(RCTPromiseResolveBlock)resolve rejector:(RCTPromiseRejectBlock)reject) {
+RCT_EXPORT_METHOD(canMakePayments: (RCTPromiseResolveBlock)resolve rejector:(RCTPromiseRejectBlock)reject) {
     resolve(@[[NSNumber numberWithBool:[self _canMakePayments]]]);
 }
 
-RCT_EXPORT_METHOD(canMakePaymentsUsingNetworks: resolver:(RCTPromiseResolveBlock)resolve rejector:(RCTPromiseRejectBlock)reject) {
+RCT_EXPORT_METHOD(canMakePaymentsUsingNetworks: (RCTPromiseResolveBlock)resolve rejector:(RCTPromiseRejectBlock)reject) {
     resolve(@[[NSNumber numberWithBool:[self _canMakePaymentsUsingNetworks]]]);
 }
 
@@ -195,10 +195,11 @@ RCT_EXPORT_METHOD(createTokenWithCardForm:(NSArray *)items resolver:(RCTPromiseR
 
     float total = 0;
     for (NSDictionary *i in items) {
+        NSLog(@"adding %@", i[@"amount"]);
         total += [i[@"amount"] floatValue];
     }
-    NSDecimalNumber *dnTotal = [[NSDecimalNumber alloc] initWithFloat:total];
-    [self beginCustomPaymentWithAmount:dnTotal];
+    NSLog(@"Total: %.2f", total);
+    [self beginCustomPaymentWithAmount:total];
 }
 
 RCT_EXPORT_METHOD(success:resolver:(RCTPromiseResolveBlock)resolve rejector:(RCTPromiseRejectBlock)reject)
