@@ -7,7 +7,6 @@
 
 #import <Stripe/Stripe.h>
 
-#import "RCTStripeNative.h"
 #import "PaymentViewController.h"
 
 @interface PaymentViewController () <STPPaymentCardTextFieldDelegate>
@@ -20,11 +19,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    self.title = @"Buy a shirt";
+    self.title = @"Payment";
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
-    
+
     // Setup save button
     NSString *title = [NSString stringWithFormat:@"Pay $%@", self.amount];
     UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStyleDone target:self action:@selector(save:)];
@@ -32,11 +31,11 @@
     saveButton.enabled = NO;
     self.navigationItem.leftBarButtonItem = cancelButton;
     self.navigationItem.rightBarButtonItem = saveButton;
-    
+
     // Setup payment view
     STPPaymentCardTextField *paymentTextField = [[STPPaymentCardTextField alloc] init];
     paymentTextField.delegate = self;
-//    paymentTextField.cursorColor = [UIColor purpleColor];
+    //    paymentTextField.cursorColor = [UIColor purpleColor];
     self.paymentTextField = paymentTextField;
     [self.view addSubview:paymentTextField];
     
@@ -52,7 +51,6 @@
     CGFloat padding = 15;
     CGFloat width = CGRectGetWidth(self.view.frame) - (padding * 2);
     self.paymentTextField.frame = CGRectMake(padding, padding, width, 44);
-    
     self.activityIndicator.center = self.view.center;
 }
 
@@ -72,27 +70,21 @@
         NSError *error = [NSError errorWithDomain:StripeDomain
                                              code:STPInvalidRequestError
                                          userInfo:@{
-                                                    NSLocalizedDescriptionKey: @"Please specify a Stripe Publishable Key in Constants.m"
+                                                    NSLocalizedDescriptionKey: @"Please specify a Stripe Publishable Key"
                                                     }];
-        [self.delegate paymentViewController:self didFinish:error];
+        [self.delegate paymentViewController:self didFinishWithToken:nil error:error];
         return;
     }
+    
     [self.activityIndicator startAnimating];
     [[STPAPIClient sharedClient] createTokenWithCard:self.paymentTextField.card
                                           completion:^(STPToken *token, NSError *error) {
                                               [self.activityIndicator stopAnimating];
                                               if (error) {
-                                                  [self.delegate paymentViewController:self didFinish:error];
+                                                  [self.delegate paymentViewController:self didFinishWithToken:nil error:error];
                                               }
                                               NSLog(@"Successfully got token: %@", token);
-//                                              [self.backendCharger createBackendChargeWithToken:token
-//                                                                                     completion:^(STPBackendChargeResult result, NSError *error) {
-//                                                                                         if (error) {
-//                                                                                             [self.delegate paymentViewController:self didFinish:error];
-//                                                                                             return;
-//                                                                                         }
-//                                                                                         [self.delegate paymentViewController:self didFinish:nil];
-//                                                                                     }];
+                                              [self.delegate paymentViewController:self didFinishWithToken:token error:nil];
                                           }];
 }
 

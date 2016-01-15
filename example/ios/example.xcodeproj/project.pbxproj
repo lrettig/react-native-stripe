@@ -22,7 +22,7 @@
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		D81E587A1C4840F200C114CB /* Stripe.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D81E58791C4840F200C114CB /* Stripe.framework */; };
-		D81E58D91C485F3E00C114CB /* libRCTStripeNative.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D81E58D41C485F0000C114CB /* libRCTStripeNative.a */; };
+		D81E59061C494C7C00C114CB /* libStripeNative.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D81E59051C494C7C00C114CB /* libStripeNative.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -103,12 +103,12 @@
 			remoteGlobalIDString = 58B5119B1A9E6C1200147676;
 			remoteInfo = RCTText;
 		};
-		D81E58D31C485F0000C114CB /* PBXContainerItemProxy */ = {
+		D81E59211C496F2600C114CB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 4FC384F51BF48D1800C3FFFA /* RCTStripeNative.xcodeproj */;
+			containerPortal = 4FC384F51BF48D1800C3FFFA /* StripeNative.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 4F3A6B5B1ACFBCC500CA65F7;
-			remoteInfo = RCTStripeNative;
+			remoteInfo = StripeNative;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -130,10 +130,11 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = example/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = example/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
-		4FC384F51BF48D1800C3FFFA /* RCTStripeNative.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTStripeNative.xcodeproj; path = ../../RCTStripeNative.xcodeproj; sourceTree = "<group>"; };
+		4FC384F51BF48D1800C3FFFA /* StripeNative.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = StripeNative.xcodeproj; path = ../../StripeNative.xcodeproj; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		D81E58791C4840F200C114CB /* Stripe.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Stripe.framework; path = ../../Stripe.framework; sourceTree = "<group>"; };
+		D81E59051C494C7C00C114CB /* libStripeNative.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libStripeNative.a; path = "../../build/Debug-iphoneos/libStripeNative.a"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,8 +149,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D81E59061C494C7C00C114CB /* libStripeNative.a in Frameworks */,
 				D81E587A1C4840F200C114CB /* Stripe.framework in Frameworks */,
-				D81E58D91C485F3E00C114CB /* libRCTStripeNative.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
@@ -262,6 +263,7 @@
 		4FC384F01BF4870C00C3FFFA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D81E59051C494C7C00C114CB /* libStripeNative.a */,
 				D81E58791C4840F200C114CB /* Stripe.framework */,
 			);
 			name = Frameworks;
@@ -278,7 +280,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				4FC384F51BF48D1800C3FFFA /* RCTStripeNative.xcodeproj */,
+				4FC384F51BF48D1800C3FFFA /* StripeNative.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
 				00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */,
 				00C302B51ABCB90400DB3ED1 /* RCTGeolocation.xcodeproj */,
@@ -323,10 +325,10 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		D81E58CA1C485F0000C114CB /* Products */ = {
+		D81E59141C496F2600C114CB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D81E58D41C485F0000C114CB /* libRCTStripeNative.a */,
+				D81E59221C496F2600C114CB /* libStripeNative.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -422,10 +424,6 @@
 					ProjectRef = 139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */;
 				},
 				{
-					ProductGroup = D81E58CA1C485F0000C114CB /* Products */;
-					ProjectRef = 4FC384F51BF48D1800C3FFFA /* RCTStripeNative.xcodeproj */;
-				},
-				{
 					ProductGroup = 832341B11AAA6A8300B99B32 /* Products */;
 					ProjectRef = 832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */;
 				},
@@ -440,6 +438,10 @@
 				{
 					ProductGroup = 146834001AC3E56700842450 /* Products */;
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+				},
+				{
+					ProductGroup = D81E59141C496F2600C114CB /* Products */;
+					ProjectRef = 4FC384F51BF48D1800C3FFFA /* StripeNative.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -521,11 +523,11 @@
 			remoteRef = 832341B41AAA6A8300B99B32 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		D81E58D41C485F0000C114CB /* libRCTStripeNative.a */ = {
+		D81E59221C496F2600C114CB /* libStripeNative.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libRCTStripeNative.a;
-			remoteRef = D81E58D31C485F0000C114CB /* PBXContainerItemProxy */;
+			path = libStripeNative.a;
+			remoteRef = D81E59211C496F2600C114CB /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -648,10 +650,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEAD_CODE_STRIPPING = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SRCROOT)/../../",
-					"$(SRCROOT)/../node_modules/react-native-facebook-login/FacebookSDK/**",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../../";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -669,10 +668,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SRCROOT)/../../",
-					"$(SRCROOT)/../node_modules/react-native-facebook-login/FacebookSDK/**",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../../";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,

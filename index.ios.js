@@ -1,101 +1,61 @@
-var React = require('react-native');
-var {
-  View,
-  StyleSheet,
-  PropTypes,
-  NativeModules,
-  requireNativeComponent,
-  NativeMethodsMixin,
-  DeviceEventEmitter,
-} = React;
-
+import React, { NativeModules } from 'react-native'
 var { StripeNativeManager } = NativeModules;
 
-var FBLogin = React.createClass({
-  statics: {
-    //Events: FBLoginManager.Events,
+var NativeStripe = {
+  canMakePayments: StripeNativeManager.canMakePayments,
+  canMakePaymentsUsingNetworks: StripeNativeManager.canMakePaymentsUsingNetworks,
+
+  init: (stripePublishableKey, applePayMerchantId) => {
+    return StripeNativeManager.initWithStripePublishableKey(stripePublishableKey, applePayMerchantId);
   },
 
-  propTypes: {
-    //style: View.propTypes.style,
-    //permissions: PropTypes.array, // default: ["public_profile", "email"]
-    //loginBehavior: PropTypes.number, // default: Native
-    //onLogin: PropTypes.func,
-    //onLogout: PropTypes.func,
-    //onLoginFound: PropTypes.func,
-    //onLoginNotFound: PropTypes.func,
-    //onError: PropTypes.func,
-    //onCancel: PropTypes.func,
-    //onPermissionsMissing: PropTypes.func,
-  },
-
-  getInitialState: function(){
-    return {
-      credentials: null,
-      subscriptions: [],
-    };
-  },
-
-  mixins: [NativeMethodsMixin],
-
-  componentWillMount: function(){
-    var _this = this;
-    //var subscriptions = this.state.subscriptions;
-
-    // For each event key in FBLoginManager constantsToExport
-    // Create listener and call event handler from props
-    // e.g.  this.props.onError, this.props.onLogin
-    //Object.keys(FBLoginManager.Events).forEach(function(event){
-    //  subscriptions.push(DeviceEventEmitter.addListener(
-    //    FBLoginManager.Events[event],
-    //    (eventData) => {
-    //      // event handler defined? call it and pass along any event data
-    //      var eventHandler = _this.props["on"+event];
-    //      eventHandler && eventHandler(eventData);
-    //    }
-    //  ));
-    //})
-
-    // Add listeners to state
-    //this.setState({ subscriptions : subscriptions });
-  },
-
-  componentWillUnmount: function(){
-    //var subscriptions = this.state.subscriptions;
-    //subscriptions.forEach(function(subscription){
-    //  subscription.remove();
-    //});
-  },
-
-  componentDidMount: function(){
-    var _this = this;
-    //FBLoginManager.getCredentials(function(error, data){
-    //  if( !_this.isMounted() ) return;
-    //  if (!error) {
-    //    _this.setState({ credentials : data.credentials });
-    //  } else {
-    //    _this.setState({ credentials : null });
-    //  }
-    //});
-  },
-
-  render: function() {
-    var props = {
-      ...this.props,
-      style: ([styles.base, this.props.style]),
+  createTokenWithApplePay: (items, merchantName, fallbackOnCardForm) => {
+    // Set up total as last item
+    var totalItem = {
+      label: merchantName,
+      amount: getTotal(items).toString()
     };
 
-    return <RCTFBLogin {...props} />
+    // Set amounts as strings
+    var summaryItems = JSON.parse(JSON.stringify(items));
+    summaryItems.forEach(function (i) {
+      i.amount = i.amount.toString();
+    });
+
+    summaryItems.push(totalItem);
+
+    return StripeNativeManager.createTokenWithApplePay(summaryItems, [], fallbackOnCardForm);
   },
-});
 
-var RCTFBLogin = requireNativeComponent('RCTStripeNative', FBLogin);
+  createTokenWithCardForm: StripeNativeManager.createTokenWithCardForm,
 
-var styles = StyleSheet.create({
-  base: {
-    width: 200,
-    height: 300,
+  success: () => {
+    return new Promise(function (resolve, reject) {
+      StripeNativeManager.success(function (error) {
+        if (error) {
+          return reject(error);
+        }
+
+        resolve(true);
+      });
+    });
   },
-});
 
-module.exports = FBLogin;
+  failure: () => {
+    return new Promise(function (resolve, reject) {
+      StripeNativeManager.failure(function (error) {
+        if (error) {
+          return reject(error);
+        }
+
+        resolve(true);
+      });
+    });
+  },
+};
+
+getTotal = (items) => {
+  return items.map(i => i.amount).reduce((a,b)=>a+b, 0);
+};
+
+module.exports = NativeStripe;

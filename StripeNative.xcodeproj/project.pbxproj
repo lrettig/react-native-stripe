@@ -7,11 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4F3A6BA31ACFC16C00CA65F7 /* RCTStripeNative.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3A6BA01ACFC16C00CA65F7 /* RCTStripeNative.m */; };
-		4F3A6BA41ACFC16C00CA65F7 /* RCTStripeNativeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3A6BA21ACFC16C00CA65F7 /* RCTStripeNativeManager.m */; };
+		4F3A6BA41ACFC16C00CA65F7 /* StripeNativeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3A6BA21ACFC16C00CA65F7 /* StripeNativeManager.m */; };
 		D81E58781C48407F00C114CB /* Stripe.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D81E58111C48157200C114CB /* Stripe.framework */; };
 		D81E58851C48498600C114CB /* PaymentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D81E58821C48498600C114CB /* PaymentViewController.m */; };
-		D81E58861C48498600C114CB /* ShippingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D81E58841C48498600C114CB /* ShippingManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -27,16 +25,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		4F3A6B5B1ACFBCC500CA65F7 /* libRCTStripeNative.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRCTStripeNative.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		4F3A6B9F1ACFC16C00CA65F7 /* RCTStripeNative.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCTStripeNative.h; path = RCTStripeNative/RCTStripeNative.h; sourceTree = "<group>"; };
-		4F3A6BA01ACFC16C00CA65F7 /* RCTStripeNative.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCTStripeNative.m; path = RCTStripeNative/RCTStripeNative.m; sourceTree = "<group>"; };
-		4F3A6BA11ACFC16C00CA65F7 /* RCTStripeNativeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCTStripeNativeManager.h; path = RCTStripeNative/RCTStripeNativeManager.h; sourceTree = "<group>"; };
-		4F3A6BA21ACFC16C00CA65F7 /* RCTStripeNativeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCTStripeNativeManager.m; path = RCTStripeNative/RCTStripeNativeManager.m; sourceTree = "<group>"; };
+		4F3A6B5B1ACFBCC500CA65F7 /* libStripeNative.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libStripeNative.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		4F3A6BA11ACFC16C00CA65F7 /* StripeNativeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StripeNativeManager.h; path = StripeNative/StripeNativeManager.h; sourceTree = "<group>"; };
+		4F3A6BA21ACFC16C00CA65F7 /* StripeNativeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StripeNativeManager.m; path = StripeNative/StripeNativeManager.m; sourceTree = "<group>"; };
 		D81E58111C48157200C114CB /* Stripe.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Stripe.framework; sourceTree = "<group>"; };
-		D81E58811C48498600C114CB /* PaymentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaymentViewController.h; path = RCTStripeNative/PaymentViewController.h; sourceTree = "<group>"; };
-		D81E58821C48498600C114CB /* PaymentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaymentViewController.m; path = RCTStripeNative/PaymentViewController.m; sourceTree = "<group>"; };
-		D81E58831C48498600C114CB /* ShippingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShippingManager.h; path = RCTStripeNative/ShippingManager.h; sourceTree = "<group>"; };
-		D81E58841C48498600C114CB /* ShippingManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ShippingManager.m; path = RCTStripeNative/ShippingManager.m; sourceTree = "<group>"; };
+		D81E58811C48498600C114CB /* PaymentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaymentViewController.h; path = StripeNative/PaymentViewController.h; sourceTree = "<group>"; };
+		D81E58821C48498600C114CB /* PaymentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaymentViewController.m; path = StripeNative/PaymentViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,14 +48,10 @@
 		4F3A6B521ACFBCC500CA65F7 = {
 			isa = PBXGroup;
 			children = (
-				4F3A6B9F1ACFC16C00CA65F7 /* RCTStripeNative.h */,
-				4F3A6BA01ACFC16C00CA65F7 /* RCTStripeNative.m */,
 				D81E58811C48498600C114CB /* PaymentViewController.h */,
 				D81E58821C48498600C114CB /* PaymentViewController.m */,
-				D81E58831C48498600C114CB /* ShippingManager.h */,
-				D81E58841C48498600C114CB /* ShippingManager.m */,
-				4F3A6BA11ACFC16C00CA65F7 /* RCTStripeNativeManager.h */,
-				4F3A6BA21ACFC16C00CA65F7 /* RCTStripeNativeManager.m */,
+				4F3A6BA11ACFC16C00CA65F7 /* StripeNativeManager.h */,
+				4F3A6BA21ACFC16C00CA65F7 /* StripeNativeManager.m */,
 				D81E58111C48157200C114CB /* Stripe.framework */,
 				4F3A6B5C1ACFBCC500CA65F7 /* Products */,
 			);
@@ -70,7 +60,7 @@
 		4F3A6B5C1ACFBCC500CA65F7 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				4F3A6B5B1ACFBCC500CA65F7 /* libRCTStripeNative.a */,
+				4F3A6B5B1ACFBCC500CA65F7 /* libStripeNative.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -78,9 +68,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		4F3A6B5A1ACFBCC500CA65F7 /* RCTStripeNative */ = {
+		4F3A6B5A1ACFBCC500CA65F7 /* StripeNative */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4F3A6B6F1ACFBCC500CA65F7 /* Build configuration list for PBXNativeTarget "RCTStripeNative" */;
+			buildConfigurationList = 4F3A6B6F1ACFBCC500CA65F7 /* Build configuration list for PBXNativeTarget "StripeNative" */;
 			buildPhases = (
 				4F3A6B571ACFBCC500CA65F7 /* Sources */,
 				4F3A6B581ACFBCC500CA65F7 /* Frameworks */,
@@ -90,9 +80,9 @@
 			);
 			dependencies = (
 			);
-			name = RCTStripeNative;
-			productName = RCTStripeNative;
-			productReference = 4F3A6B5B1ACFBCC500CA65F7 /* libRCTStripeNative.a */;
+			name = StripeNative;
+			productName = StripeNative;
+			productReference = 4F3A6B5B1ACFBCC500CA65F7 /* libStripeNative.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
@@ -102,14 +92,14 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0620;
-				ORGANIZATIONNAME = "Noah Jorgenson";
+				ORGANIZATIONNAME = "Lane Rettig";
 				TargetAttributes = {
 					4F3A6B5A1ACFBCC500CA65F7 = {
 						CreatedOnToolsVersion = 6.2;
 					};
 				};
 			};
-			buildConfigurationList = 4F3A6B561ACFBCC500CA65F7 /* Build configuration list for PBXProject "RCTStripeNative" */;
+			buildConfigurationList = 4F3A6B561ACFBCC500CA65F7 /* Build configuration list for PBXProject "StripeNative" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -121,7 +111,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				4F3A6B5A1ACFBCC500CA65F7 /* RCTStripeNative */,
+				4F3A6B5A1ACFBCC500CA65F7 /* StripeNative */,
 			);
 		};
 /* End PBXProject section */
@@ -132,9 +122,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D81E58851C48498600C114CB /* PaymentViewController.m in Sources */,
-				D81E58861C48498600C114CB /* ShippingManager.m in Sources */,
-				4F3A6BA31ACFC16C00CA65F7 /* RCTStripeNative.m in Sources */,
-				4F3A6BA41ACFC16C00CA65F7 /* RCTStripeNativeManager.m in Sources */,
+				4F3A6BA41ACFC16C00CA65F7 /* StripeNativeManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -221,8 +209,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
-					"$(PROJECT_DIR)/FacebookSDK",
-					"$(SRCROOT)/FacebookSDK",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -234,7 +220,7 @@
 					"$(SRCROOT)/example/node_modules/react-native/React/**",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = RCTStripeNative;
+				PRODUCT_NAME = StripeNative;
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -245,8 +231,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
-					"$(PROJECT_DIR)/FacebookSDK",
-					"$(SRCROOT)/FacebookSDK",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -258,7 +242,7 @@
 					"$(SRCROOT)/example/node_modules/react-native/React/**",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = RCTStripeNative;
+				PRODUCT_NAME = StripeNative;
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -266,7 +250,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		4F3A6B561ACFBCC500CA65F7 /* Build configuration list for PBXProject "RCTStripeNative" */ = {
+		4F3A6B561ACFBCC500CA65F7 /* Build configuration list for PBXProject "StripeNative" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4F3A6B6D1ACFBCC500CA65F7 /* Debug */,
@@ -275,7 +259,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4F3A6B6F1ACFBCC500CA65F7 /* Build configuration list for PBXNativeTarget "RCTStripeNative" */ = {
+		4F3A6B6F1ACFBCC500CA65F7 /* Build configuration list for PBXNativeTarget "StripeNative" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4F3A6B701ACFBCC500CA65F7 /* Debug */,
