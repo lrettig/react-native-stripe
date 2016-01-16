@@ -154,9 +154,10 @@ RCT_EXPORT_MODULE();
         if (error) {
             promiseRejector(error);
         } else {
-            // Convert token to string
-            NSString *tokenString = [NSString stringWithFormat:@"%@", token];
-            promiseResolver(@[tokenString, email]);
+            // Convert token to string and add additional information
+            promiseResolver(@[[NSString stringWithFormat:@"%@", token],
+                              @{},
+                              @{@"emailAddress": email}]);
         }
     }];
 }
