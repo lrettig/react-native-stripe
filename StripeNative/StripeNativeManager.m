@@ -75,11 +75,9 @@ RCT_EXPORT_MODULE();
     }
     summaryItem = [summaryItems lastObject];
 
-//    PKPaymentRequest *paymentRequest = [[PKPaymentRequest alloc] init];
     PKPaymentRequest *paymentRequest = [Stripe paymentRequestWithMerchantIdentifier:applePayMerchantId];
     [paymentRequest setRequiredShippingAddressFields:PKAddressFieldPostalAddress|PKAddressFieldEmail|PKAddressFieldName];
     [paymentRequest setRequiredBillingAddressFields:PKAddressFieldPostalAddress|PKAddressFieldEmail|PKAddressFieldName];
-//        paymentRequest.shippingMethods = [shippingManager defaultShippingMethods];
     paymentRequest.paymentSummaryItems = summaryItems;
     paymentRequest.merchantIdentifier = applePayMerchantId;
     PKPaymentAuthorizationViewController *auth = [[PKPaymentAuthorizationViewController alloc] initWithPaymentRequest:paymentRequest];
@@ -107,7 +105,8 @@ RCT_EXPORT_MODULE();
         }
         else {
             // Convert token to string and add additional requested information.
-            promiseResolver(@[[NSString stringWithFormat:@"%@", token],
+            promiseResolver(@[
+                              token.tokenId,
                               @{
                                   @"street": payment.shippingContact.postalAddress.street,
                                   @"city": payment.shippingContact.postalAddress.city,
@@ -155,9 +154,11 @@ RCT_EXPORT_MODULE();
             promiseRejector(error);
         } else {
             // Convert token to string and add additional information
-            promiseResolver(@[[NSString stringWithFormat:@"%@", token],
+            promiseResolver(@[
+                              token.tokenId,
+                              @{@"emailAddress": email},
                               @{},
-                              @{@"emailAddress": email}]);
+                              ]);
         }
     }];
 }
@@ -213,13 +214,15 @@ RCT_EXPORT_METHOD(createTokenWithCardForm:(NSArray *)items resolver:(RCTPromiseR
 
 RCT_EXPORT_METHOD(success:resolver:(RCTPromiseResolveBlock)resolve rejector:(RCTPromiseRejectBlock)reject)
 {
-    applePayCompletion(PKPaymentAuthorizationStatusSuccess);
+    if (applePayCompletion)
+        applePayCompletion(PKPaymentAuthorizationStatusSuccess);
     resolve(@[[NSNull null]]);
 }
 
 RCT_EXPORT_METHOD(failure:resolver:(RCTPromiseResolveBlock)resolve rejector:(RCTPromiseRejectBlock)reject)
 {
-    applePayCompletion(PKPaymentAuthorizationStatusFailure);
+    if (applePayCompletion)
+        applePayCompletion(PKPaymentAuthorizationStatusFailure);
     resolve(@[[NSNull null]]);
 }
 
