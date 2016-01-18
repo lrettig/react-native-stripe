@@ -76,7 +76,7 @@ RCT_EXPORT_MODULE();
     summaryItem = [summaryItems lastObject];
 
     PKPaymentRequest *paymentRequest = [Stripe paymentRequestWithMerchantIdentifier:applePayMerchantId];
-    [paymentRequest setRequiredShippingAddressFields:PKAddressFieldPostalAddress|PKAddressFieldEmail|PKAddressFieldName];
+    [paymentRequest setRequiredShippingAddressFields:PKAddressFieldPostalAddress|PKAddressFieldEmail|PKAddressFieldName|PKAddressFieldPhone];
     [paymentRequest setRequiredBillingAddressFields:PKAddressFieldPostalAddress|PKAddressFieldEmail|PKAddressFieldName];
     paymentRequest.paymentSummaryItems = summaryItems;
     paymentRequest.merchantIdentifier = applePayMerchantId;
@@ -108,6 +108,7 @@ RCT_EXPORT_MODULE();
             promiseResolver(@[
                               token.tokenId,
                               @{
+                                  @"name": [NSPersonNameComponentsFormatter localizedStringFromPersonNameComponents:payment.shippingContact.name style:NSPersonNameComponentsFormatterStyleDefault options:0],
                                   @"street": payment.shippingContact.postalAddress.street,
                                   @"city": payment.shippingContact.postalAddress.city,
                                   @"state": payment.shippingContact.postalAddress.state,
@@ -118,6 +119,7 @@ RCT_EXPORT_MODULE();
                                   @"phoneNumber": payment.shippingContact.phoneNumber ? [payment.shippingContact.phoneNumber stringValue] : @"",
                                   },
                               @{
+                                  @"name": [NSPersonNameComponentsFormatter localizedStringFromPersonNameComponents:payment.billingContact.name style:NSPersonNameComponentsFormatterStyleDefault options:0],
                                   @"street": payment.billingContact.postalAddress.street,
                                   @"city": payment.billingContact.postalAddress.city,
                                   @"state": payment.billingContact.postalAddress.state,
