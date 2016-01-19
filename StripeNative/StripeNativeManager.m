@@ -15,7 +15,7 @@ typedef NS_ENUM(NSInteger, SNErrorCode) {
 
 @implementation StripeNativeManager
 {
-//    RCTStripeNative *_fbLogin;
+    //    RCTStripeNative *_fbLogin;
     BOOL _initialized;
     NSString *stripePublishableKey;
     NSString *applePayMerchantId;
@@ -39,7 +39,7 @@ typedef NS_ENUM(NSInteger, SNErrorCode) {
 
 - (dispatch_queue_t)methodQueue
 {
-  return dispatch_get_main_queue();
+    return dispatch_get_main_queue();
 }
 
 RCT_EXPORT_MODULE();
@@ -74,7 +74,7 @@ RCT_EXPORT_MODULE();
         [summaryItems addObject:item];
     }
     summaryItem = [summaryItems lastObject];
-
+    
     PKPaymentRequest *paymentRequest = [Stripe paymentRequestWithMerchantIdentifier:applePayMerchantId];
     [paymentRequest setRequiredShippingAddressFields:PKAddressFieldPostalAddress|PKAddressFieldEmail|PKAddressFieldName|PKAddressFieldPhone];
     [paymentRequest setRequiredBillingAddressFields:PKAddressFieldPostalAddress|PKAddressFieldEmail|PKAddressFieldName];
@@ -214,14 +214,14 @@ RCT_EXPORT_METHOD(createTokenWithCardForm:(NSArray *)items resolver:(RCTPromiseR
     [self beginCustomPaymentWithAmount:[[items lastObject][@"amount"] stringValue]];
 }
 
-RCT_EXPORT_METHOD(success:resolver:(RCTPromiseResolveBlock)resolve rejector:(RCTPromiseRejectBlock)reject)
+RCT_EXPORT_METHOD(success: (RCTPromiseResolveBlock)resolve rejector:(RCTPromiseRejectBlock)reject)
 {
     if (applePayCompletion)
         applePayCompletion(PKPaymentAuthorizationStatusSuccess);
     resolve(@[[NSNull null]]);
 }
 
-RCT_EXPORT_METHOD(failure:resolver:(RCTPromiseResolveBlock)resolve rejector:(RCTPromiseRejectBlock)reject)
+RCT_EXPORT_METHOD(failure: (RCTPromiseResolveBlock)resolve rejector:(RCTPromiseRejectBlock)reject)
 {
     if (applePayCompletion)
         applePayCompletion(PKPaymentAuthorizationStatusFailure);

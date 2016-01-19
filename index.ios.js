@@ -1,14 +1,25 @@
-import React, { NativeModules } from 'react-native'
+var React = require('react-native');
+var NativeModules = React.NativeModules;
 var { StripeNativeManager } = NativeModules;
 
 var NativeStripe = {
-  canMakePayments: StripeNativeManager.canMakePayments,
+
   canMakePaymentsUsingNetworks: StripeNativeManager.canMakePaymentsUsingNetworks,
   createTokenWithCardForm: StripeNativeManager.createTokenWithCardForm,
   openPaymentSetup: StripeNativeManager.openPaymentSetup,
+  success: StripeNativeManager.success,
+  failure: StripeNativeManager.failure,
 
   init: (stripePublishableKey, applePayMerchantId) => {
     return StripeNativeManager.initWithStripePublishableKey(stripePublishableKey, applePayMerchantId);
+  },
+
+  canMakePayments: () => {
+    return StripeNativeManager.canMakePayments().then(function (retList) {
+      // Data always comes back from native as a list.  We wrap this method to
+      // fix that.
+      return retList[0];
+    });
   },
 
   createTokenWithApplePay: (items, merchantName, fallbackOnCardForm) => {
@@ -27,30 +38,6 @@ var NativeStripe = {
     summaryItems.push(totalItem);
 
     return StripeNativeManager.createTokenWithApplePay(summaryItems, [], fallbackOnCardForm);
-  },
-
-  success: () => {
-    return new Promise(function (resolve, reject) {
-      StripeNativeManager.success(function (error) {
-        if (error) {
-          return reject(error);
-        }
-
-        resolve(true);
-      });
-    });
-  },
-
-  failure: () => {
-    return new Promise(function (resolve, reject) {
-      StripeNativeManager.failure(function (error) {
-        if (error) {
-          return reject(error);
-        }
-
-        resolve(true);
-      });
-    });
   },
 };
 
