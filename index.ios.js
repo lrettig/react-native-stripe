@@ -38,6 +38,14 @@ var NativeStripe = {
     });
   },
 
+  canMakePaymentsUsingNetworks: () => {
+    return StripeNativeManager.canMakePaymentsUsingNetworks().then(function (retList) {
+      // Data always comes back from native as a list.  We wrap this method to
+      // fix that.
+      return retList[0];
+    });
+  },
+
   paymentRequestWithApplePay: (items, merchantName, options) => {
     options = options || {};
 

@@ -41,35 +41,37 @@ var AppEntry = React.createClass({
   applePayFailure: function () { this.applePay() },
 
   applePay: function (success, allInfo) {
-    if (!StripeNative.canMakePayments()) {
-      this.setState({error: "Apple Pay is not enabled on this device"});
-    }
-    else if (!StripeNative.canMakePaymentsUsingNetworks()) {
-      this.setState({error: "Apple Pay is enabled but no card is configured"});
-    }
-    else {
-      var options = {
-        fallbackOnCardForm: false,
-        shippingAddressFields: allInfo ?
-          StripeNative.iOSConstants.PKAddressFieldAll : StripeNative.iOSConstants.PKAddressFieldNone,
-      };
-      StripeNative.paymentRequestWithApplePay(SOME_ITEMS, "Llama Kitty Shop", options).then(function (obj) {
-        var token = obj[0],
-          shippingInfo = obj[1],
-          billingInfo = obj[2];
+    // These come back as promises.
+    Promise.all([StripeNative.canMakePayments(), StripeNative.canMakePaymentsUsingNetworks()]).then(
+      function (canMakePayments) {
+        if (!canMakePayments[0])
+          this.setState({error: "Apple Pay is not enabled on this device"});
+        else if (!canMakePayments[1])
+          this.setState({error: "Apple Pay is enabled but no card is configured"});
+        else {
+          var options = {
+            fallbackOnCardForm: false,
+            shippingAddressFields: allInfo ?
+              StripeNative.iOSConstants.PKAddressFieldAll : StripeNative.iOSConstants.PKAddressFieldNone,
+          };
+          StripeNative.paymentRequestWithApplePay(SOME_ITEMS, "Llama Kitty Shop", options).then(function (obj) {
+            var token = obj[0],
+              shippingInfo = obj[1],
+              billingInfo = obj[2];
 
-        alert("Got token: " + token);
-        console.log("Shipping info: " + JSON.stringify(shippingInfo));
-        console.log("Billing info: " + JSON.stringify(billingInfo));
+            alert("Got token: " + token);
+            console.log("Shipping info: " + JSON.stringify(shippingInfo));
+            console.log("Billing info: " + JSON.stringify(billingInfo));
 
-        // (Create charge here)
+            // (Create charge here)
 
-        (success ? StripeNative.success : StripeNative.failure)();
-      }, function (err) {
-        console.log("Got err: " + JSON.stringify(err));
-        this.setState({error: "Error getting token"});
-      }.bind(this))
-    }
+            (success ? StripeNative.success : StripeNative.failure)();
+          }, function (err) {
+            console.log("Got err: " + JSON.stringify(err));
+            this.setState({error: "Error getting token"});
+          }.bind(this))
+        }
+      }.bind(this));
   },
 
   cardForm: function () {
