@@ -1,9 +1,11 @@
 //
 //  PaymentViewController.h
-//  Stripe
 //
-//  Created by Alex MacCaw on 3/4/13.
+//  Created by Lane Rettig on 1/22/15.
+//  Copyright (c) 2015 Lane Rettig. All rights reserved.
 //
+//  Based on work by Alex MacCaw at Stripe.
+//  See https://github.com/stripe/stripe-ios.
 //
 
 #import <UIKit/UIKit.h>
