@@ -21,6 +21,7 @@ npm i react-native-stripe --save
 - Scroll down and click the `+` to add a library
 - Find and add `libStripeNative.a` under the `Workspace` group
 - ⌘+B
+- If you get an error about `Stripe.h`, delete the `Stripe.framework` in Xcode and reinstall it manually from https://stripe.com/docs/mobile/ios.
 
 ## Example
 ```javascript

@@ -95,7 +95,7 @@ RCT_EXPORT_MODULE();
         [rootViewController presentViewController:auth animated:YES completion:nil];
     } else {
         NSLog(@"Apple Pay returned a nil PKPaymentAuthorizationViewController - make sure you've configured Apple Pay correctly, as outlined at https://stripe.com/docs/mobile/apple-pay");
-        *error = [NSError errorWithDomain:StripeNativeDomain code:SNOtherError userInfo:@{NSLocalizedDescriptionKey:@"Configuration error"}];
+        *error = [NSError errorWithDomain:StripeNativeDomain code:SNOtherError userInfo:@{NSLocalizedDescriptionKey:@"Apple Pay configuration error"}];
     }
 }
 
