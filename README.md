@@ -43,21 +43,20 @@ const SOME_ITEMS = [
 var AppEntry = React.createClass({
 
   componentDidMount: function () {
-    StripeNative.init(STRIPE_KEY, APPLEPAY_ID);
+    StripeNative.init(STRIPE_KEY);
   },
 
   applePay: function () {
     if (!StripeNative.canMakePayments()) {
-      this.setState({error: "Apple Pay is not enabled on this device"});
+      alert("Apple Pay is not enabled on this device");
     }
     else if (!StripeNative.canMakePaymentsUsingNetworks()) {
-      this.setState({error: "Apple Pay is enabled but no card is configured"});
+      alert("Apple Pay is enabled but no card is configured");
     }
     else {
       var options = {
         fallbackOnCardForm: false,
-        shippingAddressFields: allInfo ?
-          StripeNative.iOSConstants.PKAddressFieldAll : StripeNative.iOSConstants.PKAddressFieldNone,
+        shippingAddressFields: StripeNative.iOSConstants.PKAddressFieldAll,
       };
       StripeNative.paymentRequestWithApplePay(SOME_ITEMS, "Llama Kitty Shop", options).then(function (obj) {
         var token = obj[0],
@@ -68,9 +67,8 @@ var AppEntry = React.createClass({
 
         (chargeWasSuccessful ? StripeNative.success : StripeNative.failure)();
       }, function (err) {
-        console.log("Got err: " + JSON.stringify(err));
-        this.setState({error: "Error getting token"});
-      }.bind(this))
+        alert(err);
+      })
     }
   },
 });
