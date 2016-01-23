@@ -24,7 +24,9 @@ var NativeStripe = {
   success: StripeNativeManager.success,
   failure: StripeNativeManager.failure,
 
-  init: (stripePublishableKey, applePayMerchantId) => {
+  init: (stripePublishableKey) => {
+    // Apple does not seem to care what we set this to.
+    var applePayMerchantId = "unused";
     return StripeNativeManager.initWithStripePublishableKey(stripePublishableKey, applePayMerchantId);
   },
 
