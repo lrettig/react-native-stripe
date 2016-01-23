@@ -79,13 +79,12 @@ var AppEntry = React.createClass({
 
 ## Sample application
 
-```
-cd node_modules/react-native-stripe/example/
-npm install
-react-native start
-open ios/example.xcodeproj
-<CTRL-R>
-```
+- ```cd node_modules/react-native-stripe/example/```
+- Edit `index.ios.js` and replace `<YOUR STRIPE KEY>` with your Stripe publishable key.
+- ```npm install```
+- ```react-native start```
+- ```open ios/example.xcodeproj```
+- ⌘+R to run the app in X-code.
 
 ## Limitations
 - Currently only supports Android.
