@@ -15,7 +15,6 @@ typedef NS_ENUM(NSInteger, SNErrorCode) {
 
 @implementation StripeNativeManager
 {
-    //    RCTStripeNative *_fbLogin;
     BOOL _initialized;
     NSString *stripePublishableKey;
     NSString *applePayMerchantId;
@@ -62,10 +61,13 @@ RCT_EXPORT_MODULE();
     [lib openPaymentSetup];
 }
 
-- (void)_beginApplePayWithItems:(NSArray *)items shippingMethods:(NSArray *)shippingMethods error:(NSError**)error {
+- (void)_beginApplePayWithArgs: (NSDictionary *)args items:(NSArray *)items error:(NSError**)error {
+    
+    NSUInteger shippingAddressFieldsMask = args[@"shippingAddressFields"] ? [args[@"shippingAddressFields"] integerValue] : 0;
+
     // Setup product, discount, shipping and total
     NSMutableArray *summaryItems = [NSMutableArray array];
-    
+
     for (NSDictionary *i in items) {
         NSLog(@"Item: %@", i[@"label"]);
         PKPaymentSummaryItem *item = [[PKPaymentSummaryItem alloc] init];
@@ -74,10 +76,10 @@ RCT_EXPORT_MODULE();
         [summaryItems addObject:item];
     }
     summaryItem = [summaryItems lastObject];
-    
+
     PKPaymentRequest *paymentRequest = [Stripe paymentRequestWithMerchantIdentifier:applePayMerchantId];
-    [paymentRequest setRequiredShippingAddressFields:PKAddressFieldPostalAddress|PKAddressFieldEmail|PKAddressFieldName|PKAddressFieldPhone];
-    [paymentRequest setRequiredBillingAddressFields:PKAddressFieldPostalAddress|PKAddressFieldEmail|PKAddressFieldName];
+    [paymentRequest setRequiredShippingAddressFields:shippingAddressFieldsMask];
+    [paymentRequest setRequiredBillingAddressFields:PKAddressFieldPostalAddress];
     paymentRequest.paymentSummaryItems = summaryItems;
     paymentRequest.merchantIdentifier = applePayMerchantId;
     PKPaymentAuthorizationViewController *auth = [[PKPaymentAuthorizationViewController alloc] initWithPaymentRequest:paymentRequest];
@@ -88,6 +90,23 @@ RCT_EXPORT_MODULE();
         NSLog(@"Apple Pay returned a nil PKPaymentAuthorizationViewController - make sure you've configured Apple Pay correctly, as outlined at https://stripe.com/docs/mobile/apple-pay");
         *error = [NSError errorWithDomain:StripeNativeDomain code:SNOtherError userInfo:@{NSLocalizedDescriptionKey:@"Configuration error"}];
     }
+}
+
+- (NSDictionary *)getContactDetails:(PKContact*)inputContact {
+    // Convert token to string and add additional requested information.
+    NSMutableDictionary *contactDetails = [[NSMutableDictionary alloc] init];
+    
+    // Treat name and phone a little differently since we need to format them
+    if (inputContact.name)
+        [contactDetails setValue:[NSPersonNameComponentsFormatter localizedStringFromPersonNameComponents:inputContact.name style:NSPersonNameComponentsFormatterStyleDefault options:0] forKey:@"name"];
+    if (inputContact.phoneNumber)
+        [contactDetails setValue:[inputContact.phoneNumber stringValue] forKey:@"phoneNumber"];
+    for (NSString *elem in @[@"street", @"city", @"state", @"country", @"ISOCountryCode", @"postalCode", @"emailAddress"]) {
+        if ([inputContact respondsToSelector:NSSelectorFromString(elem)])
+            [contactDetails setValue:[inputContact valueForKey:elem] forKey:elem];
+    }
+
+    return contactDetails;
 }
 
 - (void)paymentAuthorizationViewController:(PKPaymentAuthorizationViewController *)controller
@@ -104,31 +123,10 @@ RCT_EXPORT_MODULE();
             promiseRejector(error);
         }
         else {
-            // Convert token to string and add additional requested information.
             promiseResolver(@[
                               token.tokenId,
-                              @{
-                                  @"name": [NSPersonNameComponentsFormatter localizedStringFromPersonNameComponents:payment.shippingContact.name style:NSPersonNameComponentsFormatterStyleDefault options:0],
-                                  @"street": payment.shippingContact.postalAddress.street,
-                                  @"city": payment.shippingContact.postalAddress.city,
-                                  @"state": payment.shippingContact.postalAddress.state,
-                                  @"country": payment.shippingContact.postalAddress.country,
-                                  @"ISOCountryCode": payment.shippingContact.postalAddress.ISOCountryCode,
-                                  @"postalCode" : payment.shippingContact.postalAddress.postalCode,
-                                  @"emailAddress" : payment.shippingContact.emailAddress ? payment.shippingContact.emailAddress : @"",
-                                  @"phoneNumber": payment.shippingContact.phoneNumber ? [payment.shippingContact.phoneNumber stringValue] : @"",
-                                  },
-                              @{
-                                  @"name": [NSPersonNameComponentsFormatter localizedStringFromPersonNameComponents:payment.billingContact.name style:NSPersonNameComponentsFormatterStyleDefault options:0],
-                                  @"street": payment.billingContact.postalAddress.street,
-                                  @"city": payment.billingContact.postalAddress.city,
-                                  @"state": payment.billingContact.postalAddress.state,
-                                  @"country": payment.billingContact.postalAddress.country,
-                                  @"ISOCountryCode": payment.billingContact.postalAddress.ISOCountryCode,
-                                  @"postalCode" : payment.billingContact.postalAddress.postalCode,
-                                  @"emailAddress" : payment.billingContact.emailAddress ? payment.billingContact.emailAddress : @"",
-                                  @"phoneNumber": payment.billingContact.phoneNumber ? [payment.billingContact.phoneNumber stringValue] : @"",
-                                  },
+                              [self getContactDetails:payment.shippingContact],
+                              [self getContactDetails:payment.billingContact],
                               ]);
         }
     }];
@@ -186,7 +184,7 @@ RCT_EXPORT_METHOD(openPaymentSetup) {
     [self _openPaymentSetup];
 }
 
-RCT_EXPORT_METHOD(createTokenWithApplePay:(NSArray *)items shippingMethods:(NSArray *)shippingMethods fallbackOnCardForm:(BOOL)fallback resolver:(RCTPromiseResolveBlock)resolve rejector:(RCTPromiseRejectBlock)reject) {
+RCT_EXPORT_METHOD(paymentRequestWithApplePay: (NSArray *)items args:(NSDictionary *)args resolver:(RCTPromiseResolveBlock)resolve rejector:(RCTPromiseRejectBlock)reject) {
     
     NSError *error = nil;
     
@@ -194,19 +192,19 @@ RCT_EXPORT_METHOD(createTokenWithApplePay:(NSArray *)items shippingMethods:(NSAr
     if ([self _canMakePayments]) {
         promiseResolver = resolve;
         promiseRejector = reject;
-        [self _beginApplePayWithItems:items shippingMethods:shippingMethods error:&error];
+        [self _beginApplePayWithArgs:args items:items error:&error];
         if (error)
             reject(error);
     }
-    else if (fallback) {
-        [self createTokenWithCardForm:items resolver:resolve rejector:reject];
+    else if (args[@"fallbackOnCardForm"]) {
+        [self paymentRequestWithCardForm:items resolver:resolve rejector:reject];
     }
     else {
         reject([NSError errorWithDomain:StripeNativeDomain code:SNOtherError userInfo:@{NSLocalizedDescriptionKey:@"Apple Pay not enabled and fallback option false"}]);
     }
 }
 
-RCT_EXPORT_METHOD(createTokenWithCardForm:(NSArray *)items resolver:(RCTPromiseResolveBlock)resolve rejector:(RCTPromiseRejectBlock)reject) {
+RCT_EXPORT_METHOD(paymentRequestWithCardForm:(NSArray *)items resolver:(RCTPromiseResolveBlock)resolve rejector:(RCTPromiseRejectBlock)reject) {
     promiseResolver = resolve;
     promiseRejector = reject;
     

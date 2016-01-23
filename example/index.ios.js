@@ -35,11 +35,13 @@ var AppEntry = React.createClass({
     }
   },
 
-  applePaySuccess: function () { this.applePay(true) },
+  applePaySuccess: function () { this.applePay("success") },
 
-  applePayFailure: function () { this.applePay(false) },
+  applePayAllInfo: function () { this.applePay("success", "allinfo") },
 
-  applePay: function (success) {
+  applePayFailure: function () { this.applePay() },
+
+  applePay: function (success, allInfo) {
     if (!StripeNative.canMakePayments()) {
       this.setState({error: "Apple Pay is not enabled on this device"});
     }
@@ -47,7 +49,12 @@ var AppEntry = React.createClass({
       this.setState({error: "Apple Pay is enabled but no card is configured"});
     }
     else {
-      StripeNative.createTokenWithApplePay(SOME_ITEMS, "Llama Kitty Shop", false).then(function (obj) {
+      var options = {
+        fallbackOnCardForm: false,
+        shippingAddressFields: allInfo ?
+          StripeNative.iOSConstants.PKAddressFieldAll : StripeNative.iOSConstants.PKAddressFieldNone,
+      };
+      StripeNative.paymentRequestWithApplePay(SOME_ITEMS, "Llama Kitty Shop", options).then(function (obj) {
         var token = obj[0],
           shippingInfo = obj[1],
           billingInfo = obj[2];
@@ -67,12 +74,12 @@ var AppEntry = React.createClass({
   },
 
   cardForm: function () {
-    StripeNative.createTokenWithCardForm(SOME_ITEMS).then(function (obj) {
+    StripeNative.paymentRequestWithCardForm(SOME_ITEMS).then(function (obj) {
       var token = obj[0],
-        billingInfo = obj[2];
+        shippingInfo = obj[1];
 
       alert("Got token: " + token);
-      alert("Got email: " + billingInfo.emailAddress);
+      alert("Got email: " + shippingInfo.emailAddress);
 
       // (Create charge here)
 
@@ -94,6 +101,14 @@ var AppEntry = React.createClass({
           underlayColor="#99D9F4">
           <Text style={styles.buttonText}>
             Try Apple Pay (Success)
+          </Text>
+        </TouchableHighlight>
+        <TouchableHighlight
+          style={styles.selectButton}
+          onPress={this.applePayAllInfo}
+          underlayColor="#99D9F4">
+          <Text style={styles.buttonText}>
+            Try Apple Pay All Info (Success)
           </Text>
         </TouchableHighlight>
         <TouchableHighlight

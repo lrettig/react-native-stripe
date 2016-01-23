@@ -2,10 +2,24 @@ var React = require('react-native');
 var NativeModules = React.NativeModules;
 var { StripeNativeManager } = NativeModules;
 
+var iOSConstants = {
+  PKAddressFieldNone:           0,
+  PKAddressFieldPostalAddress:  1 << 0,
+  PKAddressFieldPhone:          1 << 1,
+  PKAddressFieldEmail:          1 << 2,
+  PKAddressFieldName:           1 << 3,
+};
+iOSConstants.PKAddressFieldAll =
+  iOSConstants.PKAddressFieldPostalAddress|
+  iOSConstants.PKAddressFieldPostalAddress|
+  iOSConstants.PKAddressFieldPhone|
+  iOSConstants.PKAddressFieldEmail|
+  iOSConstants.PKAddressFieldName;
+
 var NativeStripe = {
 
   canMakePaymentsUsingNetworks: StripeNativeManager.canMakePaymentsUsingNetworks,
-  createTokenWithCardForm: StripeNativeManager.createTokenWithCardForm,
+  paymentRequestWithCardForm: StripeNativeManager.paymentRequestWithCardForm,
   openPaymentSetup: StripeNativeManager.openPaymentSetup,
   success: StripeNativeManager.success,
   failure: StripeNativeManager.failure,
@@ -22,7 +36,9 @@ var NativeStripe = {
     });
   },
 
-  createTokenWithApplePay: (items, merchantName, fallbackOnCardForm) => {
+  paymentRequestWithApplePay: (items, merchantName, options) => {
+    options = options || {};
+
     // Set up total as last item
     var totalItem = {
       label: merchantName,
@@ -37,7 +53,7 @@ var NativeStripe = {
 
     summaryItems.push(totalItem);
 
-    return StripeNativeManager.createTokenWithApplePay(summaryItems, [], fallbackOnCardForm);
+    return StripeNativeManager.paymentRequestWithApplePay(summaryItems, options);
   },
 };
 
@@ -45,4 +61,5 @@ getTotal = (items) => {
   return items.map(i => i.amount).reduce((a,b)=>a+b, 0);
 };
 
+NativeStripe.iOSConstants = iOSConstants;
 module.exports = NativeStripe;
