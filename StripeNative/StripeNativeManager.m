@@ -71,10 +71,10 @@ RCT_EXPORT_MODULE();
 - (void)_beginApplePayWithArgs: (NSDictionary *)args items:(NSArray *)items error:(NSError**)error {
     
     NSUInteger shippingAddressFieldsMask = args[@"shippingAddressFields"] ? [args[@"shippingAddressFields"] integerValue] : 0;
-
+    
     // Setup product, discount, shipping and total
     NSMutableArray *summaryItems = [NSMutableArray array];
-
+    
     for (NSDictionary *i in items) {
         NSLog(@"Item: %@", i[@"label"]);
         PKPaymentSummaryItem *item = [[PKPaymentSummaryItem alloc] init];
@@ -83,7 +83,7 @@ RCT_EXPORT_MODULE();
         [summaryItems addObject:item];
     }
     summaryItem = [summaryItems lastObject];
-
+    
     PKPaymentRequest *paymentRequest = [Stripe paymentRequestWithMerchantIdentifier:applePayMerchantId];
     [paymentRequest setRequiredShippingAddressFields:shippingAddressFieldsMask];
     [paymentRequest setRequiredBillingAddressFields:PKAddressFieldPostalAddress];
@@ -108,11 +108,13 @@ RCT_EXPORT_MODULE();
         [contactDetails setValue:[NSPersonNameComponentsFormatter localizedStringFromPersonNameComponents:inputContact.name style:NSPersonNameComponentsFormatterStyleDefault options:0] forKey:@"name"];
     if (inputContact.phoneNumber)
         [contactDetails setValue:[inputContact.phoneNumber stringValue] forKey:@"phoneNumber"];
-    for (NSString *elem in @[@"street", @"city", @"state", @"country", @"ISOCountryCode", @"postalCode", @"emailAddress"]) {
-        if ([inputContact respondsToSelector:NSSelectorFromString(elem)])
-            [contactDetails setValue:[inputContact valueForKey:elem] forKey:elem];
+    if (inputContact.emailAddress)
+        [contactDetails setValue:inputContact.emailAddress forKey:@"emailAddress"];
+    for (NSString *elem in @[@"street", @"city", @"state", @"country", @"ISOCountryCode", @"postalCode"]) {
+        if ([inputContact.postalAddress respondsToSelector:NSSelectorFromString(elem)])
+            [contactDetails setValue:[inputContact.postalAddress valueForKey:elem] forKey:elem];
     }
-
+    
     return contactDetails;
 }
 
