@@ -11,7 +11,6 @@ var iOSConstants = {
 };
 iOSConstants.PKAddressFieldAll =
   iOSConstants.PKAddressFieldPostalAddress|
-  iOSConstants.PKAddressFieldPostalAddress|
   iOSConstants.PKAddressFieldPhone|
   iOSConstants.PKAddressFieldEmail|
   iOSConstants.PKAddressFieldName;
