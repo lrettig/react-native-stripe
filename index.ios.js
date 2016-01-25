@@ -18,7 +18,6 @@ iOSConstants.PKAddressFieldAll =
 
 var NativeStripe = {
 
-  canMakePaymentsUsingNetworks: StripeNativeManager.canMakePaymentsUsingNetworks,
   paymentRequestWithCardForm: StripeNativeManager.paymentRequestWithCardForm,
   openPaymentSetup: StripeNativeManager.openPaymentSetup,
   success: StripeNativeManager.success,

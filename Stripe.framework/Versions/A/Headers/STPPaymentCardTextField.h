@@ -29,6 +29,21 @@
  */
 - (void)paymentCardTextFieldDidChange:(nonnull STPPaymentCardTextField *)textField;
 
+/**
+ *  Called when editing begins in the payment card field's number field.
+ */
+- (void)paymentCardTextFieldDidBeginEditingNumber:(nonnull STPPaymentCardTextField *)textField;
+
+/**
+ *  Called when editing begins in the payment card field's CVC field.
+ */
+- (void)paymentCardTextFieldDidBeginEditingCVC:(nonnull STPPaymentCardTextField *)textField;
+
+/**
+ *  Called when editing begins in the payment card field's expiration field.
+ */
+- (void)paymentCardTextFieldDidBeginEditingExpiration:(nonnull STPPaymentCardTextField *)textField;
+
 @end
 
 
@@ -50,17 +65,17 @@
 /**
  *  The text color to be used when entering valid text. Default is [UIColor blackColor]. Set this property to nil to reset to the default.
  */
-@property(nonatomic, copy, null_resettable) IBInspectable UIColor *textColor UI_APPEARANCE_SELECTOR;
+@property(nonatomic, copy, null_resettable) UIColor *textColor UI_APPEARANCE_SELECTOR;
 
 /**
  *  The text color to be used when the user has entered invalid information, such as an invalid card number. Default is [UIColor redColor]. Set this property to nil to reset to the default.
  */
-@property(nonatomic, copy, null_resettable) IBInspectable UIColor *textErrorColor UI_APPEARANCE_SELECTOR IBInspectable;
+@property(nonatomic, copy, null_resettable) UIColor *textErrorColor UI_APPEARANCE_SELECTOR;
 
 /**
  *  The text placeholder color used in each child field. Default is [UIColor lightGreyColor]. Set this property to nil to reset to the default. On iOS 7 and above, this will also set the color of the card placeholder icon.
  */
-@property(nonatomic, copy, null_resettable) IBInspectable UIColor *placeholderColor UI_APPEARANCE_SELECTOR IBInspectable;
+@property(nonatomic, copy, null_resettable) UIColor *placeholderColor UI_APPEARANCE_SELECTOR;
 
 /**
  *  The placeholder for the card number field. Default is @"1234567812345678". If this is set to something that resembles a card number, it will automatically format it as such (in other words, you don't need to add spaces to this string).
@@ -78,29 +93,39 @@
 @property(nonatomic, copy, nullable) NSString *cvcPlaceholder;
 
 /**
+ *  The cursor color for the field. This is a proxy for the view's tintColor property, exposed for clarity only (in other words, calling setCursorColor is identical to calling setTintColor).
+ */
+@property(nonatomic, copy, null_resettable) UIColor *cursorColor UI_APPEARANCE_SELECTOR;
+
+/**
  *  The border color for the field. Default is [UIColor lightGreyColor]. Can be nil (in which case no border will be drawn).
  */
-@property(nonatomic, copy, nullable) IBInspectable UIColor *borderColor UI_APPEARANCE_SELECTOR IBInspectable;
+@property(nonatomic, copy, nullable) UIColor *borderColor UI_APPEARANCE_SELECTOR;
 
 /**
  *  The width of the field's border. Default is 1.0.
  */
-@property(nonatomic, assign) IBInspectable CGFloat borderWidth UI_APPEARANCE_SELECTOR IBInspectable;
+@property(nonatomic, assign) CGFloat borderWidth UI_APPEARANCE_SELECTOR;
 
 /**
  *  The corner radius for the field's border. Default is 5.0.
  */
-@property(nonatomic, assign) IBInspectable CGFloat cornerRadius UI_APPEARANCE_SELECTOR IBInspectable;
+@property(nonatomic, assign) CGFloat cornerRadius UI_APPEARANCE_SELECTOR;
 
 /**
  *  The keyboard appearance for the field. Default is UIKeyboardAppearanceDefault.
  */
-@property(nonatomic, assign) IBInspectable UIKeyboardAppearance keyboardAppearance UI_APPEARANCE_SELECTOR;
+@property(nonatomic, assign) UIKeyboardAppearance keyboardAppearance UI_APPEARANCE_SELECTOR;
 
 /**
  *  This behaves identically to setting the inputAccessoryView for each child text field.
  */
 @property(nonatomic, strong, nullable) UIView *inputAccessoryView;
+
+/**
+ *  The curent brand image displayed in the receiver.
+ */
+@property (nonatomic, readonly, nullable) UIImage *brandImage;
 
 /**
  *  Causes the text field to begin editing. Presents the keyboard.
@@ -122,6 +147,57 @@
  *  Resets all of the contents of all of the fields. If the field is currently being edited, the number field will become selected.
  */
 - (void)clear;
+
+/**
+ *  Returns the cvc image used for a card brand.
+ *  Override this method in a subclass if you would like to provide custom images.
+ *  @param cardBrand The brand of card entered.
+ *  @return The cvc image used for a card brand.
+ */
++ (nullable UIImage *)cvcImageForCardBrand:(STPCardBrand)cardBrand;
+
+/**
+ *  Returns the brand image used for a card brand.
+ *  Override this method in a subclass if you would like to provide custom images.
+ *  @param cardBrand The brand of card entered.
+ *  @return The brand image used for a card brand.
+ */
++ (nullable UIImage *)brandImageForCardBrand:(STPCardBrand)cardBrand;
+
+/**
+ *  Returns the rectangle in which the receiver draws its brand image.
+ *  @param bounds The bounding rectangle of the receiver.
+ *  @return the rectangle in which the receiver draws its brand image.
+ */
+- (CGRect)brandImageRectForBounds:(CGRect)bounds;
+
+/**
+ *  Returns the rectangle in which the receiver draws the text fields.
+ *  @param bounds The bounding rectangle of the receiver.
+ *  @return The rectangle in which the receiver draws the text fields.
+ */
+- (CGRect)fieldsRectForBounds:(CGRect)bounds;
+
+/**
+ *  Returns the rectangle in which the receiver draws its number field.
+ *  @param bounds The bounding rectangle of the receiver.
+ *  @return the rectangle in which the receiver draws its number field.
+ */
+- (CGRect)numberFieldRectForBounds:(CGRect)bounds;
+
+/**
+ *  Returns the rectangle in which the receiver draws its cvc field.
+ *  @param bounds The bounding rectangle of the receiver.
+ *  @return the rectangle in which the receiver draws its cvc field.
+ */
+- (CGRect)cvcFieldRectForBounds:(CGRect)bounds;
+
+/**
+ *  Returns the rectangle in which the receiver draws its expiration field.
+ *  @param bounds The bounding rectangle of the receiver.
+ *  @return the rectangle in which the receiver draws its expiration field.
+ */
+- (CGRect)expirationFieldRectForBounds:(CGRect)bounds;
 
 /**
  *  Whether or not the form currently contains a valid card number, expiration date, and CVC.
@@ -155,9 +231,14 @@
 @property(nonatomic, readonly, nullable) NSString *cvc;
 
 /**
- *  Convenience method to create a STPCard from the currently entered information. Will return nil if not valid.
+ *  Convenience property for creating an STPCardParams from the currently entered information
+ *  or programmatically setting the field's contents. For example, if you're using another library
+ *  to scan your user's credit card with a camera, you can assemble that data into an STPCardParams
+ *  object and set this property to that object to prefill the fields you've collected.
  */
-@property(nonatomic, readonly, nullable) STPCardParams *card;
+@property(nonatomic, readwrite, nonnull) STPCardParams *cardParams;
+
+@property(nonatomic, readwrite, nullable) STPCardParams *card __attribute__((deprecated("This has been renamed to cardParams; use that instead.")));
 
 @end
 
@@ -183,7 +264,7 @@ __attribute__((deprecated("This protocol is provided only for backwards-compatib
 __attribute__((deprecated("This class is provided only for backwards-compatibility with PaymentKit. You shouldn't use it - use STPPaymentCardTextField instead.")))
 @interface PTKView : STPPaymentCardTextField
 @property(nonatomic, weak, nullable)id<PTKViewDelegate>delegate;
-@property(nonatomic, readonly, nonnull) PTKCard *card;
+@property(nonatomic, readwrite, nonnull) PTKCard *card;
 @end
 
 #pragma clang diagnostic pop

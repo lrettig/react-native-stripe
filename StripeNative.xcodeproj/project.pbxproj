@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		4F3A6BA41ACFC16C00CA65F7 /* StripeNativeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3A6BA21ACFC16C00CA65F7 /* StripeNativeManager.m */; };
-		D81E58781C48407F00C114CB /* Stripe.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D81E58111C48157200C114CB /* Stripe.framework */; };
 		D81E58851C48498600C114CB /* PaymentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D81E58821C48498600C114CB /* PaymentViewController.m */; };
+		D8B2AFA21C56913400334F50 /* Stripe.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8B2AFA11C56913400334F50 /* Stripe.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -28,9 +28,9 @@
 		4F3A6B5B1ACFBCC500CA65F7 /* libStripeNative.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libStripeNative.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F3A6BA11ACFC16C00CA65F7 /* StripeNativeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StripeNativeManager.h; path = StripeNative/StripeNativeManager.h; sourceTree = "<group>"; };
 		4F3A6BA21ACFC16C00CA65F7 /* StripeNativeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StripeNativeManager.m; path = StripeNative/StripeNativeManager.m; sourceTree = "<group>"; };
-		D81E58111C48157200C114CB /* Stripe.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Stripe.framework; sourceTree = "<group>"; };
 		D81E58811C48498600C114CB /* PaymentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaymentViewController.h; path = StripeNative/PaymentViewController.h; sourceTree = "<group>"; };
 		D81E58821C48498600C114CB /* PaymentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaymentViewController.m; path = StripeNative/PaymentViewController.m; sourceTree = "<group>"; };
+		D8B2AFA11C56913400334F50 /* Stripe.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Stripe.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -38,7 +38,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D81E58781C48407F00C114CB /* Stripe.framework in Frameworks */,
+				D8B2AFA21C56913400334F50 /* Stripe.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -52,7 +52,7 @@
 				D81E58821C48498600C114CB /* PaymentViewController.m */,
 				4F3A6BA11ACFC16C00CA65F7 /* StripeNativeManager.h */,
 				4F3A6BA21ACFC16C00CA65F7 /* StripeNativeManager.m */,
-				D81E58111C48157200C114CB /* Stripe.framework */,
+				D8B2AFA11C56913400334F50 /* Stripe.framework */,
 				4F3A6B5C1ACFBCC500CA65F7 /* Products */,
 			);
 			sourceTree = "<group>";
