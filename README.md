@@ -48,29 +48,30 @@ var AppEntry = React.createClass({
   },
 
   applePay: function () {
-    if (!StripeNative.canMakePayments()) {
-      alert("Apple Pay is not enabled on this device");
-    }
-    else if (!StripeNative.canMakePaymentsUsingNetworks()) {
-      alert("Apple Pay is enabled but no card is configured");
-    }
-    else {
-      var options = {
-        fallbackOnCardForm: false,
-        shippingAddressFields: StripeNative.iOSConstants.PKAddressFieldAll,
-      };
-      StripeNative.paymentRequestWithApplePay(SOME_ITEMS, "Llama Kitty Shop", options).then(function (obj) {
-        var token = obj[0],
-          shippingInfo = obj[1],
-          billingInfo = obj[2];
-
-        // (Create charge here)
-
-        (chargeWasSuccessful ? StripeNative.success : StripeNative.failure)();
-      }, function (err) {
-        alert(err);
-      })
-    }
+    Promise.all([StripeNative.canMakePayments(), StripeNative.canMakePaymentsUsingNetworks()]).then(
+      function (canMakePayments) {
+        if (!canMakePayments[0])
+          alert("Apple Pay is not enabled on this device");
+        else if (!canMakePayments[1])
+          alert("Apple Pay is enabled but no card is configured");
+        else {
+          var options = {
+            fallbackOnCardForm: false,
+            shippingAddressFields: StripeNative.iOSConstants.PKAddressFieldAll,
+          };
+          StripeNative.paymentRequestWithApplePay(SOME_ITEMS, "Llama Kitty Shop", options).then(function (obj) {
+            var token = obj[0],
+              shippingInfo = obj[1],
+              billingInfo = obj[2];
+  
+            // (Create charge here)
+  
+            (chargeWasSuccessful ? StripeNative.success : StripeNative.failure)();
+          }, function (err) {
+            alert(err);
+          }.bind(this))
+        }
+      }.bind(this));
   },
 });
 
