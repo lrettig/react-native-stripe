@@ -6,6 +6,9 @@ Wraps the native [Stripe iOS SDK](https://github.com/stripe/stripe-ios) for Reac
 - Collect credit card information and convert to a Stripe token, all in native code.
 - Get billing and shipping information (name, address, phone number, email address) from Apple Pay.
 - Fall back on simple Stripe native credit card form for older devices.
+- Check if the device supports Apple Pay, and if so, whether it has cards configured.
+- If not, you can prompt the user to configure Apple Pay and enter a card.
+- Specify which fields to request from the user in Apple Pay: name, postal address, phone number, and/or email.
 - All methods return promises.
 
 ## Installation
@@ -87,8 +90,10 @@ var AppEntry = React.createClass({
 - ⌘+R to run the app in X-code.
 
 ## Limitations
-- Currently only supports Android.
+- Currently only supports iOS.
 - Apple does not currently allow us to get any billing contact info other than a postal address.
+- Cannot yet check if payment is possible or request payment using a specific card brand ("Visa", "Amex", etc.).
+- Currently only supports Stripe as payment processor.
 
 ## Copyright and license
 
