@@ -72,9 +72,9 @@ var AppEntry = React.createClass({
             (chargeWasSuccessful ? StripeNative.success : StripeNative.failure)();
           }, function (err) {
             alert(err);
-          }.bind(this))
+          })
         }
-      }.bind(this));
+      });
   },
 });
 
