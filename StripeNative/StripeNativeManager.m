@@ -137,6 +137,7 @@ RCT_EXPORT_MODULE();
                               [self getContactDetails:payment.shippingContact],
                               [self getContactDetails:payment.billingContact],
                               ]);
+            [rootViewController dismissViewControllerAnimated:YES completion:nil];
         }
     }];
 }
