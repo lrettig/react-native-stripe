@@ -255,4 +255,28 @@ RCT_EXPORT_METHOD(failure: (RCTPromiseResolveBlock)resolve rejector:(RCTPromiseR
     resolve(@[[NSNull null]]);
 }
 
+RCT_EXPORT_METHOD(createTokenWithCard:(NSDictionary *)cardParams resolver:(RCTPromiseResolveBlock)resolve rejector:(RCTPromiseRejectBlock)reject) {
+    STPCardParams *card = [[STPCardParams alloc] init];
+    NSNumberFormatter * numberFormatter = [[NSNumberFormatter alloc] init];
+    for (NSString *propertyName in [STPCardParams propertyNamesToFormFieldNamesMapping]) {
+        id value = [cardParams objectForKey:propertyName];
+        if ([propertyName isEqualToString:@"expMonth"] || [propertyName isEqualToString:@"expYear"]) {
+            NSNumber *number = [numberFormatter numberFromString:value];
+            if (number) {
+                [card setValue:number forKey:propertyName];
+            }
+        } else {
+            [card setValue:value forKey:propertyName];
+        }
+    }
+    [[STPAPIClient sharedClient] createTokenWithCard:card
+                                          completion:^(STPToken *token, NSError *error) {
+                                              if (error == nil) {
+                                                  resolve(token.tokenId);
+                                              } else {
+                                                  reject(error);
+                                              }
+                                          }];
+}
+
 @end
