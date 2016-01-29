@@ -37,5 +37,5 @@
     "postinstall": "bash postinstall.sh",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "version": "1.0.2"
+  "version": "1.0.3"
 }
