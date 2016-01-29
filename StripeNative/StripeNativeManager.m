@@ -261,7 +261,10 @@ RCT_EXPORT_METHOD(createTokenWithCard:(NSDictionary *)cardParams resolver:(RCTPr
     for (NSString *propertyName in [STPCardParams propertyNamesToFormFieldNamesMapping]) {
         id value = [cardParams objectForKey:propertyName];
         if ([propertyName isEqualToString:@"expMonth"] || [propertyName isEqualToString:@"expYear"]) {
-            NSNumber *number = [numberFormatter numberFromString:value];
+            NSNumber *number = value;
+            if ([number isKindOfClass:[NSString class]]) {
+                number = [numberFormatter numberFromString:value];
+            }
             if (number) {
                 [card setValue:number forKey:propertyName];
             }
