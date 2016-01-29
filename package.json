@@ -34,6 +34,7 @@
     "url": "https://github.com/lrettig/react-native-stripe"
   },
   "scripts": {
+    "postinstall": "bash postinstall.sh",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "version": "1.0.2"
