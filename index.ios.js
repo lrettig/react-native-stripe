@@ -15,6 +15,12 @@ iOSConstants.PKAddressFieldAll =
   iOSConstants.PKAddressFieldEmail|
   iOSConstants.PKAddressFieldName;
 
+var Error = {
+  SNUserCanceled: 1000, // user canceled Apple Pay
+  SNOtherError:   2000, // misc. error
+};
+var StripeNativeDomain = "com.lockehart.lib.StripeNative";
+
 var NativeStripe = {
 
   paymentRequestWithCardForm: StripeNativeManager.paymentRequestWithCardForm,
@@ -70,4 +76,6 @@ getTotal = (items) => {
 };
 
 NativeStripe.iOSConstants = iOSConstants;
+NativeStripe.Error = Error;
+NativeStripe.StripeNativeDomain = StripeNativeDomain;
 module.exports = NativeStripe;

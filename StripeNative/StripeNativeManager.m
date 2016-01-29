@@ -8,16 +8,19 @@
 #import <Stripe/Stripe.h>
 
 #import "RCTEventDispatcher.h"
-#import "RCTLog.h"
+#import "RCTUtils.h"
 
 #import "PaymentViewController.h"
 #import "StripeNativeManager.h"
 
 @import PassKit;
 
-NSString *const StripeNativeDomain = @"com.lockehart.lib";
+NSString *const StripeNativeDomain = @"com.lockehart.lib.StripeNative";
 typedef NS_ENUM(NSInteger, SNErrorCode) {
-    SNOtherError = 10, // Generic error
+    // RN uses three-digit error codes.  Our error domain is different so it shouldn't
+    // matter if there's overlap but use four digit codes just to be safe.
+    SNUserCanceled  = 1000, // User canceled Apple Pay
+    SNOtherError    = 2000, // Generic error
 };
 
 @implementation StripeNativeManager
@@ -27,11 +30,12 @@ typedef NS_ENUM(NSInteger, SNErrorCode) {
     NSString *applePayMerchantId;
     UIViewController *rootViewController;
     PKPaymentSummaryItem *summaryItem;
-    
+
     // Save these promises so we can resolve them later.
     RCTPromiseResolveBlock promiseResolver;
     RCTPromiseRejectBlock promiseRejector;
-    
+    BOOL resolved;
+
     // This completion dismisses the Apple Pay stuff
     void (^applePayCompletion)(PKPaymentAuthorizationStatus);
 }
@@ -124,9 +128,10 @@ RCT_EXPORT_MODULE();
 {
     // Hold onto this until we know whether the payment succeeded or failed
     applePayCompletion = completion;
-    
+
     // Exchange payment for a Stripe token
     [[STPAPIClient sharedClient] createTokenWithPayment:payment completion:^(STPToken *token, NSError *error) {
+        resolved = TRUE;
         if (error) {
             completion(PKPaymentAuthorizationStatusFailure);
             promiseRejector(error);
@@ -145,6 +150,11 @@ RCT_EXPORT_MODULE();
 {
     NSLog(@"Payment Authorization Controller dismissed.");
     [rootViewController dismissViewControllerAnimated:YES completion:nil];
+
+    if (!resolved) {
+        resolved = TRUE;
+        promiseRejector([[NSError alloc] initWithDomain:StripeNativeDomain code:SNUserCanceled userInfo:@{NSLocalizedDescriptionKey:@"User canceled Apple Pay"}]);
+    }
 }
 
 # pragma mark - Card form
@@ -159,6 +169,7 @@ RCT_EXPORT_MODULE();
 
 - (void)paymentViewController:(PaymentViewController *)controller didFinishWithToken:(STPToken *)token email:(NSString *)email error:(NSError *)error {
     [rootViewController dismissViewControllerAnimated:YES completion:^{
+        resolved = TRUE;
         if (error) {
             promiseRejector(error);
         } else {
@@ -194,13 +205,14 @@ RCT_EXPORT_METHOD(openPaymentSetup) {
 }
 
 RCT_EXPORT_METHOD(paymentRequestWithApplePay: (NSArray *)items args:(NSDictionary *)args resolver:(RCTPromiseResolveBlock)resolve rejector:(RCTPromiseRejectBlock)reject) {
-    
+
     NSError *error = nil;
-    
+
     // First try Apple pay
     if ([self _canMakePayments]) {
         promiseResolver = resolve;
         promiseRejector = reject;
+        resolved = FALSE;
         [self _beginApplePayWithArgs:args items:items error:&error];
         if (error)
             reject(error);
@@ -216,6 +228,7 @@ RCT_EXPORT_METHOD(paymentRequestWithApplePay: (NSArray *)items args:(NSDictionar
 RCT_EXPORT_METHOD(paymentRequestWithCardForm:(NSArray *)items resolver:(RCTPromiseResolveBlock)resolve rejector:(RCTPromiseRejectBlock)reject) {
     promiseResolver = resolve;
     promiseRejector = reject;
+    resolved = FALSE;
     
     // Get total from last item
     [self beginCustomPaymentWithAmount:[[items lastObject][@"amount"] stringValue]];
