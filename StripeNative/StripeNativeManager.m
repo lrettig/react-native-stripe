@@ -173,12 +173,18 @@ RCT_EXPORT_MODULE();
         if (error) {
             promiseRejector(error);
         } else {
-            // Convert token to string and add additional information
-            promiseResolver(@[
-                              token.tokenId,
-                              @{@"emailAddress": email},
-                              @{},
-                              ]);
+            // Check if the user canceled the form.
+            if (!token) {
+                promiseRejector([[NSError alloc] initWithDomain:StripeNativeDomain code:SNUserCanceled userInfo:@{NSLocalizedDescriptionKey:@"User canceled payment"}]);
+            }
+            else {
+                // Convert token to string and add additional information.
+                promiseResolver(@[
+                                  token.tokenId,
+                                  @{@"emailAddress": email},
+                                  @{},
+                                  ]);
+            }
         }
     }];
 }
