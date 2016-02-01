@@ -86,6 +86,7 @@ var AppEntry = React.createClass({
 
 - ```cd node_modules/react-native-stripe/example/```
 - Edit `index.ios.js` and replace `<YOUR STRIPE KEY>` with your Stripe publishable key.
+- Optionally, replace `<YOUR APPLE PAY MERCHANT ID>` with your merchant ID.  Note that this doesn't matter for testing in the simulator.
 - ```npm install```
 - ```react-native start```
 - ```open ios/example.xcodeproj```

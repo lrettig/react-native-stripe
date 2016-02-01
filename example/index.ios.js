@@ -1,6 +1,7 @@
 var React = require('react-native');
 var StripeNative = require('react-native-stripe');
 
+const MERCHANT_ID = "<YOUR APPLE PAY MERCHANT ID>";
 const STRIPE_KEY = "<YOUR STRIPE KEY>";
 
 const SOME_ITEMS = [
@@ -25,7 +26,7 @@ var {
 var AppEntry = React.createClass({
 
   componentDidMount: function () {
-    StripeNative.init(STRIPE_KEY);
+    StripeNative.init(STRIPE_KEY, MERCHANT_ID);
   },
 
   getInitialState: function () {
