@@ -134,7 +134,7 @@ RCT_EXPORT_MODULE();
         resolved = TRUE;
         if (error) {
             completion(PKPaymentAuthorizationStatusFailure);
-            promiseRejector(error);
+            promiseRejector(nil, nil, error);
         }
         else {
             promiseResolver(@[
@@ -153,7 +153,7 @@ RCT_EXPORT_MODULE();
 
     if (!resolved) {
         resolved = TRUE;
-        promiseRejector([[NSError alloc] initWithDomain:StripeNativeDomain code:SNUserCanceled userInfo:@{NSLocalizedDescriptionKey:@"User canceled Apple Pay"}]);
+        promiseRejector([NSString stringWithFormat:@"%ld", SNUserCanceled], @"User canceled Apple Pay", [[NSError alloc] initWithDomain:StripeNativeDomain code:SNUserCanceled userInfo:@{NSLocalizedDescriptionKey:@"User canceled Apple Pay"}]);
     }
 }
 
@@ -171,11 +171,11 @@ RCT_EXPORT_MODULE();
     [rootViewController dismissViewControllerAnimated:YES completion:^{
         resolved = TRUE;
         if (error) {
-            promiseRejector(error);
+            promiseRejector(nil, nil, error);
         } else {
             // Check if the user canceled the form.
             if (!token) {
-                promiseRejector([[NSError alloc] initWithDomain:StripeNativeDomain code:SNUserCanceled userInfo:@{NSLocalizedDescriptionKey:@"User canceled payment"}]);
+                promiseRejector([NSString stringWithFormat:@"%ld", SNUserCanceled], @"User canceled payment", [[NSError alloc] initWithDomain:StripeNativeDomain code:SNUserCanceled userInfo:@{NSLocalizedDescriptionKey:@"User canceled payment"}]);
             }
             else {
                 // Convert token to string and add additional information.
@@ -221,13 +221,13 @@ RCT_EXPORT_METHOD(paymentRequestWithApplePay: (NSArray *)items args:(NSDictionar
         resolved = FALSE;
         [self _beginApplePayWithArgs:args items:items error:&error];
         if (error)
-            reject(error);
+            reject(nil, nil, error);
     }
     else if (args[@"fallbackOnCardForm"]) {
         [self paymentRequestWithCardForm:items resolver:resolve rejector:reject];
     }
     else {
-        reject([NSError errorWithDomain:StripeNativeDomain code:SNOtherError userInfo:@{NSLocalizedDescriptionKey:@"Apple Pay not enabled and fallback option false"}]);
+        reject(nil, nil, [NSError errorWithDomain:StripeNativeDomain code:SNOtherError userInfo:@{NSLocalizedDescriptionKey:@"Apple Pay not enabled and fallback option false"}]);
     }
 }
 

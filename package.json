@@ -27,7 +27,7 @@
   "name": "react-native-stripe",
   "optionalDependencies": {},
   "peerDependencies": {
-    "react-native": ">=0.14.2"
+    "react-native": ">=0.19"
   },
   "repository": {
     "type": "git",
