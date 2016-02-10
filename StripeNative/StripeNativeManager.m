@@ -153,7 +153,7 @@ RCT_EXPORT_MODULE();
 
     if (!resolved) {
         resolved = TRUE;
-        promiseRejector([NSString stringWithFormat:@"%ld", SNUserCanceled], @"User canceled Apple Pay", [[NSError alloc] initWithDomain:StripeNativeDomain code:SNUserCanceled userInfo:@{NSLocalizedDescriptionKey:@"User canceled Apple Pay"}]);
+        promiseRejector([NSString stringWithFormat:@"%ld", (long)SNUserCanceled], @"User canceled Apple Pay", [[NSError alloc] initWithDomain:StripeNativeDomain code:SNUserCanceled userInfo:@{NSLocalizedDescriptionKey:@"User canceled Apple Pay"}]);
     }
 }
 
@@ -175,7 +175,7 @@ RCT_EXPORT_MODULE();
         } else {
             // Check if the user canceled the form.
             if (!token) {
-                promiseRejector([NSString stringWithFormat:@"%ld", SNUserCanceled], @"User canceled payment", [[NSError alloc] initWithDomain:StripeNativeDomain code:SNUserCanceled userInfo:@{NSLocalizedDescriptionKey:@"User canceled payment"}]);
+                promiseRejector([NSString stringWithFormat:@"%ld", (long)SNUserCanceled], @"User canceled payment", [[NSError alloc] initWithDomain:StripeNativeDomain code:SNUserCanceled userInfo:@{NSLocalizedDescriptionKey:@"User canceled payment"}]);
             }
             else {
                 // Convert token to string and add additional information.

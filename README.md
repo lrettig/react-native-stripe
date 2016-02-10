@@ -97,6 +97,7 @@ var AppEntry = React.createClass({
 - Apple does not currently allow us to get any billing contact info other than a postal address.
 - Cannot yet check if payment is possible or request payment using a specific card brand ("Visa", "Amex", etc.).
 - Currently only supports Stripe as payment processor.
+- If the payment information that the user enters on the manual card entry form is declined, that feedback only comes (as a rejected promise) after the form is closed.  The feedback should occur on the form itself.
 
 ## Copyright and license
 
