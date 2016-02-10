@@ -23,7 +23,6 @@ var StripeNativeDomain = "com.lockehart.lib.StripeNative";
 
 var NativeStripe = {
 
-  paymentRequestWithCardForm: StripeNativeManager.paymentRequestWithCardForm,
   openPaymentSetup: StripeNativeManager.openPaymentSetup,
   success: StripeNativeManager.success,
   failure: StripeNativeManager.failure,
@@ -66,6 +65,10 @@ var NativeStripe = {
     summaryItems.push(totalItem);
 
     return StripeNativeManager.paymentRequestWithApplePay(summaryItems, options);
+  },
+
+  paymentRequestWithCardForm: (items) => {
+    return StripeNativeManager.paymentRequestWithCardForm(getTotal(items).toFixed(2).toString());
   },
 };
 

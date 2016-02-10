@@ -224,20 +224,21 @@ RCT_EXPORT_METHOD(paymentRequestWithApplePay: (NSArray *)items args:(NSDictionar
             reject(nil, nil, error);
     }
     else if (args[@"fallbackOnCardForm"]) {
-        [self paymentRequestWithCardForm:items resolver:resolve rejector:reject];
+        // The last item for Apple Pay is the "summary" item with the total.
+        NSString *amount = [[items lastObject][@"amount"] stringValue];
+        [self paymentRequestWithCardForm:amount resolver:resolve rejector:reject];
     }
     else {
         reject(nil, nil, [NSError errorWithDomain:StripeNativeDomain code:SNOtherError userInfo:@{NSLocalizedDescriptionKey:@"Apple Pay not enabled and fallback option false"}]);
     }
 }
 
-RCT_EXPORT_METHOD(paymentRequestWithCardForm:(NSArray *)items resolver:(RCTPromiseResolveBlock)resolve rejector:(RCTPromiseRejectBlock)reject) {
+RCT_EXPORT_METHOD(paymentRequestWithCardForm:(NSString *)amount resolver:(RCTPromiseResolveBlock)resolve rejector:(RCTPromiseRejectBlock)reject) {
     promiseResolver = resolve;
     promiseRejector = reject;
     resolved = FALSE;
     
-    // Get total from last item
-    [self beginCustomPaymentWithAmount:[[items lastObject][@"amount"] stringValue]];
+    [self beginCustomPaymentWithAmount:amount];
 }
 
 RCT_EXPORT_METHOD(success: (RCTPromiseResolveBlock)resolve rejector:(RCTPromiseRejectBlock)reject)
