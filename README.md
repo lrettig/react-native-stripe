@@ -9,6 +9,7 @@ Wraps the native [Stripe iOS SDK](https://github.com/stripe/stripe-ios) for Reac
 - Check if the device supports Apple Pay, and if so, whether it has cards configured.
 - If not, you can prompt the user to configure Apple Pay and enter a card.
 - Specify which fields to request from the user in Apple Pay: name, postal address, phone number, and/or email.
+- Collect credit card details in JavaScript and convert them to a card token (without needing to use the Stripe JS SDK).
 - All methods return promises.
 
 ## Installation
@@ -97,7 +98,7 @@ var AppEntry = React.createClass({
 - Apple does not currently allow us to get any billing contact info other than a postal address.
 - Cannot yet check if payment is possible or request payment using a specific card brand ("Visa", "Amex", etc.).
 - Currently only supports Stripe as payment processor.
-- If the payment information that the user enters on the manual card entry form is declined, that feedback only comes (as a rejected promise) after the form is closed.  The feedback should occur on the form itself.
+- The manual card entry form is very vanilla and probably not usable in production.  You should show a user's cart to them at the point of checkout, and present errors directly on this form.  It's meant as a starting point.
 
 ## Copyright and license
 

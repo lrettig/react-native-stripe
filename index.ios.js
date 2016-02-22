@@ -9,6 +9,7 @@ var iOSConstants = {
   PKAddressFieldEmail:          1 << 2,
   PKAddressFieldName:           1 << 3,
 };
+
 iOSConstants.PKAddressFieldAll =
   iOSConstants.PKAddressFieldPostalAddress|
   iOSConstants.PKAddressFieldPhone|
@@ -24,6 +25,7 @@ var StripeNativeDomain = "com.lockehart.lib.StripeNative";
 var NativeStripe = {
 
   openPaymentSetup: StripeNativeManager.openPaymentSetup,
+  createTokenWithCard: StripeNativeManager.createTokenWithCard,
   success: StripeNativeManager.success,
   failure: StripeNativeManager.failure,
 
@@ -31,7 +33,7 @@ var NativeStripe = {
     return StripeNativeManager.initWithStripePublishableKey(stripePublishableKey, applePayMerchantId);
   },
 
-  canMakePayments: () => {
+  canMakePayments() {
     return StripeNativeManager.canMakePayments().then(function (retList) {
       // Data always comes back from native as a list.  We wrap this method to
       // fix that.
@@ -39,7 +41,7 @@ var NativeStripe = {
     });
   },
 
-  canMakePaymentsUsingNetworks: () => {
+  canMakePaymentsUsingNetworks() {
     return StripeNativeManager.canMakePaymentsUsingNetworks().then(function (retList) {
       // Data always comes back from native as a list.  We wrap this method to
       // fix that.
@@ -47,7 +49,7 @@ var NativeStripe = {
     });
   },
 
-  paymentRequestWithApplePay: (items, merchantName, options) => {
+  paymentRequestWithApplePay(items, merchantName, options) {
     options = options || {};
 
     // Set up total as last item
@@ -67,18 +69,15 @@ var NativeStripe = {
     return StripeNativeManager.paymentRequestWithApplePay(summaryItems, options);
   },
 
-  paymentRequestWithCardForm: (items) => {
+  paymentRequestWithCardForm(items) {
     return StripeNativeManager.paymentRequestWithCardForm(getTotal(items).toFixed(2).toString());
   },
 
-  createTokenWithCard: (cardParams) => {
-    return StripeNativeManager.createTokenWithCard(cardParams);
-  },
 };
 
-getTotal = (items) => {
+function getTotal (items) {
   return items.map(i => i.amount).reduce((a,b)=>a+b, 0);
-};
+}
 
 NativeStripe.iOSConstants = iOSConstants;
 NativeStripe.Error = Error;

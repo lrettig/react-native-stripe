@@ -257,7 +257,7 @@ RCT_EXPORT_METHOD(failure: (RCTPromiseResolveBlock)resolve rejector:(RCTPromiseR
 
 RCT_EXPORT_METHOD(createTokenWithCard:(NSDictionary *)cardParams resolver:(RCTPromiseResolveBlock)resolve rejector:(RCTPromiseRejectBlock)reject) {
     STPCardParams *card = [[STPCardParams alloc] init];
-    NSNumberFormatter * numberFormatter = [[NSNumberFormatter alloc] init];
+    NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
     for (NSString *propertyName in [STPCardParams propertyNamesToFormFieldNamesMapping]) {
         id value = [cardParams objectForKey:propertyName];
         if ([propertyName isEqualToString:@"expMonth"] || [propertyName isEqualToString:@"expYear"]) {
@@ -277,7 +277,7 @@ RCT_EXPORT_METHOD(createTokenWithCard:(NSDictionary *)cardParams resolver:(RCTPr
                                               if (error == nil) {
                                                   resolve(token.tokenId);
                                               } else {
-                                                  reject(error);
+                                                  reject(nil, nil, error);
                                               }
                                           }];
 }
