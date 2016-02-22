@@ -70,6 +70,10 @@ var NativeStripe = {
   paymentRequestWithCardForm: (items) => {
     return StripeNativeManager.paymentRequestWithCardForm(getTotal(items).toFixed(2).toString());
   },
+
+  createTokenWithCard: (cardParams) => {
+    return StripeNativeManager.createTokenWithCard(cardParams);
+  },
 };
 
 getTotal = (items) => {
