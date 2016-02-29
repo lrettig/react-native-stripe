@@ -12,6 +12,19 @@ Wraps the native [Stripe iOS SDK](https://github.com/stripe/stripe-ios) for Reac
 - Collect credit card details in JavaScript and convert them to a card token (without needing to use the Stripe JS SDK).
 - All methods return promises.
 
+## Caveats
+- Stripe only allows you to exchange card information for a payment token on
+  the frontend. This *does not actually verify the payment information*. It just
+  checks that it _looks_ reasonable, e.g., that the number has the right format,
+  that the expiration date is in the future, etc. You should get this token, and
+  then immediately pass it to a backend function that validates it, either by
+  creating a charge, or else by attaching it to a customer. See the [Stripe API]
+  (https://stripe.com/docs/api) for more information, and [this helpful blog
+  post] (http://www.larryullman.com/2013/01/30/handling-stripe-errors/) for more
+  on handling Stripe errors.
+- As a corollary, you should only embed your _Stripe publishable key_ in a
+  frontend app.
+
 ## Installation
 
 - Install [cocoapods](https://guides.cocoapods.org/using/getting-started.html) (usually `sudo gem install cocoapods`)
