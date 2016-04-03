@@ -1,5 +1,12 @@
-var React = require('react-native');
-var StripeNative = require('react-native-stripe');
+import React, {
+  AppRegistry,
+  StyleSheet,
+  Text,
+  TouchableHighlight,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native'
+import StripeNative, {iOSConstants, PaymentButton} from 'react-native-stripe'
 
 const MERCHANT_ID = "<YOUR APPLE PAY MERCHANT ID>";
 const STRIPE_KEY = "<YOUR STRIPE KEY>";
@@ -14,14 +21,6 @@ const SOME_ITEMS = [
     amount: 25.00,
   },
 ];
-
-var {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  TouchableHighlight,
-  View,
-} = React;
 
 var AppEntry = React.createClass({
 
@@ -42,6 +41,8 @@ var AppEntry = React.createClass({
   applePayFailure() { this.applePay() },
 
   applePay(success, allInfo) {
+    this.setState({error: null});
+
     // These come back as promises.
     Promise.all([StripeNative.canMakePayments(), StripeNative.canMakePaymentsUsingNetworks()]).then(
       function (canMakePayments) {
@@ -53,7 +54,7 @@ var AppEntry = React.createClass({
           var options = {
             fallbackOnCardForm: false,
             shippingAddressFields: allInfo ?
-              StripeNative.iOSConstants.PKAddressFieldAll : StripeNative.iOSConstants.PKAddressFieldNone,
+              iOSConstants.PKAddressFieldAll : iOSConstants.PKAddressFieldNone,
           };
           StripeNative.paymentRequestWithApplePay(SOME_ITEMS, "Llama Kitty Shop", options).then(function (obj) {
             var token = obj[0],
@@ -76,6 +77,8 @@ var AppEntry = React.createClass({
   },
 
   cardForm() {
+    this.setState({error: null});
+
     StripeNative.paymentRequestWithCardForm(SOME_ITEMS).then(function (obj) {
       var token = obj[0],
         shippingInfo = obj[1];
@@ -91,6 +94,8 @@ var AppEntry = React.createClass({
   },
 
   cardNumber() {
+    this.setState({error: null});
+
     var STPCardParams = {
       number:   4242424242424242,
       cvc:      123,
@@ -164,7 +169,7 @@ var AppEntry = React.createClass({
             Try Create with Card Number
           </Text>
         </TouchableHighlight>
-
+        <PaymentButton style={styles.selectButton} onPress={this.applePaySuccess}/>
       </View>
     );
   }
@@ -175,6 +180,7 @@ var styles = StyleSheet.create({
     flex: 1,
     paddingTop: 64,
     padding: 20,
+    alignItems: 'center',
   },
   error: {
     color: "red",
@@ -198,5 +204,4 @@ var styles = StyleSheet.create({
 });
 
 AppRegistry.registerComponent('example', () => AppEntry);
-
-module.exports = AppEntry;
+export default AppEntry;

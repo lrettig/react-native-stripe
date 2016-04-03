@@ -5,6 +5,7 @@ Wraps the native [Stripe iOS SDK](https://github.com/stripe/stripe-ios) for Reac
 ## Features
 - Collect credit card information and convert to a Stripe token, all in native code.
 - Get billing and shipping information (name, address, phone number, email address) from Apple Pay.
+- Use a native Apple Pay button that auto-adjusts to its size and style.
 - Fall back on simple Stripe native credit card form for older devices.
 - Check if the device supports Apple Pay, and if so, whether it has cards configured.
 - If not, you can prompt the user to configure Apple Pay and enter a card.
@@ -13,6 +14,7 @@ Wraps the native [Stripe iOS SDK](https://github.com/stripe/stripe-ios) for Reac
 - All methods return promises.
 
 ## Caveats
+- You must `import` this library using ES6-style imports (see example below).
 - Stripe only allows you to exchange card information for a payment token on
   the frontend. This *does not actually verify the payment information*. It just
   checks that it _looks_ reasonable, e.g., that the number has the right format,
@@ -44,8 +46,8 @@ This will also install the required pods using cocoapods.
 
 ## Example
 ```javascript
-var React = require('react-native');
-var StripeNative = require('react-native-stripe');
+import React from 'react-native'
+import StripeNative from 'react-native-stripe'
 
 const STRIPE_KEY = "<YOUR STRIPE KEY>";
 
@@ -108,6 +110,7 @@ var AppEntry = React.createClass({
 
 ## Limitations
 - Currently only supports iOS.
+- Apple Pay button currently only supports a single type (plain) and style (white). (Please help add support for other types and styles to the native code!) See [PKPaymentButton](https://developer.apple.com/library/ios/documentation/PassKit/Reference/PKPaymentButton_Class/index.html) for more.
 - Apple does not currently allow us to get any billing contact info other than a postal address.
 - Cannot yet check if payment is possible or request payment using a specific card brand ("Visa", "Amex", etc.).
 - Currently only supports Stripe as payment processor.

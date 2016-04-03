@@ -21,8 +21,8 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
-		D8A3137D1C5BB6DE00A81503 /* libStripeNative.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D8A313721C5BB6AA00A81503 /* libStripeNative.a */; };
-		D8A3137E1C5BB6EF00A81503 /* libStripe.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D8A3137B1C5BB6C700A81503 /* libStripe.a */; };
+		D824FB1B1CB15412000D84D7 /* libStripeNative.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D824FB1A1CB1540D000D84D7 /* libStripeNative.a */; };
+		D824FB3C1CB15494000D84D7 /* libStripe.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D824FB2F1CB1544A000D84D7 /* libStripe.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -103,23 +103,23 @@
 			remoteGlobalIDString = 58B5119B1A9E6C1200147676;
 			remoteInfo = RCTText;
 		};
-		D8A313711C5BB6AA00A81503 /* PBXContainerItemProxy */ = {
+		D824FB191CB1540D000D84D7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = D8A3136D1C5BB6AA00A81503 /* StripeNative.xcodeproj */;
+			containerPortal = D824FB151CB1540D000D84D7 /* StripeNative.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 4F3A6B5B1ACFBCC500CA65F7;
 			remoteInfo = StripeNative;
 		};
-		D8A313781C5BB6C700A81503 /* PBXContainerItemProxy */ = {
+		D824FB2C1CB1544A000D84D7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = D8A313731C5BB6C700A81503 /* Pods.xcodeproj */;
+			containerPortal = D824FB271CB1544A000D84D7 /* Pods.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = F74FC0D404A2C91C39080F4474BA11FD;
 			remoteInfo = Pods;
 		};
-		D8A3137A1C5BB6C700A81503 /* PBXContainerItemProxy */ = {
+		D824FB2E1CB1544A000D84D7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = D8A313731C5BB6C700A81503 /* Pods.xcodeproj */;
+			containerPortal = D824FB271CB1544A000D84D7 /* Pods.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = AD095096DA5584A4BC57EE15E3AEB3FD;
 			remoteInfo = Stripe;
@@ -148,8 +148,8 @@
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		D81E58791C4840F200C114CB /* Stripe.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Stripe.framework; path = ../../Stripe.framework; sourceTree = "<group>"; };
 		D81E59051C494C7C00C114CB /* libStripeNative.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libStripeNative.a; path = "../../build/Debug-iphoneos/libStripeNative.a"; sourceTree = "<group>"; };
-		D8A3136D1C5BB6AA00A81503 /* StripeNative.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = StripeNative.xcodeproj; path = ../../StripeNative.xcodeproj; sourceTree = "<group>"; };
-		D8A313731C5BB6C700A81503 /* Pods.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Pods.xcodeproj; path = ../../Pods/Pods.xcodeproj; sourceTree = "<group>"; };
+		D824FB151CB1540D000D84D7 /* StripeNative.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = StripeNative.xcodeproj; path = "../node_modules/react-native-stripe/StripeNative.xcodeproj"; sourceTree = "<group>"; };
+		D824FB271CB1544A000D84D7 /* Pods.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Pods.xcodeproj; path = "../node_modules/react-native-stripe/Pods/Pods.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -164,8 +164,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D8A3137E1C5BB6EF00A81503 /* libStripe.a in Frameworks */,
-				D8A3137D1C5BB6DE00A81503 /* libStripeNative.a in Frameworks */,
+				D824FB3C1CB15494000D84D7 /* libStripe.a in Frameworks */,
+				D824FB1B1CB15412000D84D7 /* libStripeNative.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
@@ -295,8 +295,8 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				D8A313731C5BB6C700A81503 /* Pods.xcodeproj */,
-				D8A3136D1C5BB6AA00A81503 /* StripeNative.xcodeproj */,
+				D824FB271CB1544A000D84D7 /* Pods.xcodeproj */,
+				D824FB151CB1540D000D84D7 /* StripeNative.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
 				00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */,
 				00C302B51ABCB90400DB3ED1 /* RCTGeolocation.xcodeproj */,
@@ -341,19 +341,19 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		D8A3136E1C5BB6AA00A81503 /* Products */ = {
+		D824FB161CB1540D000D84D7 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D8A313721C5BB6AA00A81503 /* libStripeNative.a */,
+				D824FB1A1CB1540D000D84D7 /* libStripeNative.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		D8A313741C5BB6C700A81503 /* Products */ = {
+		D824FB281CB1544A000D84D7 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D8A313791C5BB6C700A81503 /* libPods.a */,
-				D8A3137B1C5BB6C700A81503 /* libStripe.a */,
+				D824FB2D1CB1544A000D84D7 /* libPods.a */,
+				D824FB2F1CB1544A000D84D7 /* libStripe.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -428,8 +428,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = D8A313741C5BB6C700A81503 /* Products */;
-					ProjectRef = D8A313731C5BB6C700A81503 /* Pods.xcodeproj */;
+					ProductGroup = D824FB281CB1544A000D84D7 /* Products */;
+					ProjectRef = D824FB271CB1544A000D84D7 /* Pods.xcodeproj */;
 				},
 				{
 					ProductGroup = 00C302A81ABCB8CE00DB3ED1 /* Products */;
@@ -472,8 +472,8 @@
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
 				},
 				{
-					ProductGroup = D8A3136E1C5BB6AA00A81503 /* Products */;
-					ProjectRef = D8A3136D1C5BB6AA00A81503 /* StripeNative.xcodeproj */;
+					ProductGroup = D824FB161CB1540D000D84D7 /* Products */;
+					ProjectRef = D824FB151CB1540D000D84D7 /* StripeNative.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -555,25 +555,25 @@
 			remoteRef = 832341B41AAA6A8300B99B32 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		D8A313721C5BB6AA00A81503 /* libStripeNative.a */ = {
+		D824FB1A1CB1540D000D84D7 /* libStripeNative.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libStripeNative.a;
-			remoteRef = D8A313711C5BB6AA00A81503 /* PBXContainerItemProxy */;
+			remoteRef = D824FB191CB1540D000D84D7 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		D8A313791C5BB6C700A81503 /* libPods.a */ = {
+		D824FB2D1CB1544A000D84D7 /* libPods.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libPods.a;
-			remoteRef = D8A313781C5BB6C700A81503 /* PBXContainerItemProxy */;
+			remoteRef = D824FB2C1CB1544A000D84D7 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		D8A3137B1C5BB6C700A81503 /* libStripe.a */ = {
+		D824FB2F1CB1544A000D84D7 /* libStripe.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libStripe.a;
-			remoteRef = D8A3137A1C5BB6C700A81503 /* PBXContainerItemProxy */;
+			remoteRef = D824FB2E1CB1544A000D84D7 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -708,6 +708,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = com.lockehart.example;
 				PRODUCT_NAME = example;
 				PROVISIONING_PROFILE = "";
 			};
@@ -729,6 +730,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = com.lockehart.example;
 				PRODUCT_NAME = example;
 				PROVISIONING_PROFILE = "";
 			};

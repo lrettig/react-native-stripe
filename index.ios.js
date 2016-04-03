@@ -1,8 +1,11 @@
-var React = require('react-native');
-var NativeModules = React.NativeModules;
-var { StripeNativeManager } = NativeModules;
+import React, {NativeModules} from 'react-native'
+import PaymentButton from './PaymentButton'
 
-var iOSConstants = {
+var {StripeNativeManager} = NativeModules;
+
+export {PaymentButton};
+
+const iOSConstants = {
   PKAddressFieldNone:           0,
   PKAddressFieldPostalAddress:  1 << 0,
   PKAddressFieldPhone:          1 << 1,
@@ -16,18 +19,25 @@ iOSConstants.PKAddressFieldAll =
   iOSConstants.PKAddressFieldEmail|
   iOSConstants.PKAddressFieldName;
 
-var Error = {
+export {iOSConstants};
+
+export const Error = {
   SNUserCanceled: 1000, // user canceled Apple Pay
   SNOtherError:   2000, // misc. error
 };
-var StripeNativeDomain = "com.lockehart.lib.StripeNative";
+export const StripeNativeDomain = "com.lockehart.lib.StripeNative";
 
-var NativeStripe = {
+export default {
 
   openPaymentSetup: StripeNativeManager.openPaymentSetup,
   createTokenWithCard: StripeNativeManager.createTokenWithCard,
   success: StripeNativeManager.success,
   failure: StripeNativeManager.failure,
+
+  // Backwards compatibility
+  iOSConstants: iOSConstants,
+  Error: Error,
+  StripeNativeDomain: StripeNativeDomain,
 
   init: (stripePublishableKey, applePayMerchantId) => {
     return StripeNativeManager.initWithStripePublishableKey(stripePublishableKey, applePayMerchantId);
@@ -78,8 +88,3 @@ var NativeStripe = {
 function getTotal (items) {
   return items.map(i => i.amount).reduce((a,b)=>a+b, 0);
 }
-
-NativeStripe.iOSConstants = iOSConstants;
-NativeStripe.Error = Error;
-NativeStripe.StripeNativeDomain = StripeNativeDomain;
-module.exports = NativeStripe;

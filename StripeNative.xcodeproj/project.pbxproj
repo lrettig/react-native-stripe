@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4F3A6BA41ACFC16C00CA65F7 /* StripeNativeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3A6BA21ACFC16C00CA65F7 /* StripeNativeManager.m */; };
 		D81E58851C48498600C114CB /* PaymentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D81E58821C48498600C114CB /* PaymentViewController.m */; };
+		D86772051CB163D100FE27CA /* PaymentButtonManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D86772031CB163D100FE27CA /* PaymentButtonManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -29,6 +30,8 @@
 		4F3A6BA21ACFC16C00CA65F7 /* StripeNativeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StripeNativeManager.m; path = StripeNative/StripeNativeManager.m; sourceTree = "<group>"; };
 		D81E58811C48498600C114CB /* PaymentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaymentViewController.h; path = StripeNative/PaymentViewController.h; sourceTree = "<group>"; };
 		D81E58821C48498600C114CB /* PaymentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaymentViewController.m; path = StripeNative/PaymentViewController.m; sourceTree = "<group>"; };
+		D86772031CB163D100FE27CA /* PaymentButtonManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaymentButtonManager.m; path = StripeNative/PaymentButtonManager.m; sourceTree = "<group>"; };
+		D86772041CB163D100FE27CA /* PaymentButtonManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaymentButtonManager.h; path = StripeNative/PaymentButtonManager.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,6 +48,8 @@
 		4F3A6B521ACFBCC500CA65F7 = {
 			isa = PBXGroup;
 			children = (
+				D86772031CB163D100FE27CA /* PaymentButtonManager.m */,
+				D86772041CB163D100FE27CA /* PaymentButtonManager.h */,
 				D81E58811C48498600C114CB /* PaymentViewController.h */,
 				D81E58821C48498600C114CB /* PaymentViewController.m */,
 				4F3A6BA11ACFC16C00CA65F7 /* StripeNativeManager.h */,
@@ -118,6 +123,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D81E58851C48498600C114CB /* PaymentViewController.m in Sources */,
+				D86772051CB163D100FE27CA /* PaymentButtonManager.m in Sources */,
 				4F3A6BA41ACFC16C00CA65F7 /* StripeNativeManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
