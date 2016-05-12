@@ -1,1 +1,3 @@
-pod 'Stripe'
+target 'StripeNative' do
+  pod 'Stripe'
+end
