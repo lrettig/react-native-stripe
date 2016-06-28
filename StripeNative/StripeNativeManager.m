@@ -73,12 +73,12 @@ RCT_EXPORT_MODULE();
 }
 
 - (void)_beginApplePayWithArgs: (NSDictionary *)args items:(NSArray *)items error:(NSError**)error {
-    
+
     NSUInteger shippingAddressFieldsMask = args[@"shippingAddressFields"] ? [args[@"shippingAddressFields"] integerValue] : 0;
-    
+    NSString* currencyCode = args[@"currencyCode"] ? args[@"currencyCode"] : @"USD";
     // Setup product, discount, shipping and total
     NSMutableArray *summaryItems = [NSMutableArray array];
-    
+
     for (NSDictionary *i in items) {
         NSLog(@"Item: %@", i[@"label"]);
         PKPaymentSummaryItem *item = [[PKPaymentSummaryItem alloc] init];
@@ -87,10 +87,11 @@ RCT_EXPORT_MODULE();
         [summaryItems addObject:item];
     }
     summaryItem = [summaryItems lastObject];
-    
+
     PKPaymentRequest *paymentRequest = [Stripe paymentRequestWithMerchantIdentifier:applePayMerchantId];
     [paymentRequest setRequiredShippingAddressFields:shippingAddressFieldsMask];
     [paymentRequest setRequiredBillingAddressFields:PKAddressFieldPostalAddress];
+    [paymentRequest setCurrencyCode: currencyCode];
     paymentRequest.paymentSummaryItems = summaryItems;
     paymentRequest.merchantIdentifier = applePayMerchantId;
     PKPaymentAuthorizationViewController *auth = [[PKPaymentAuthorizationViewController alloc] initWithPaymentRequest:paymentRequest];
@@ -106,7 +107,7 @@ RCT_EXPORT_MODULE();
 - (NSDictionary *)getContactDetails:(PKContact*)inputContact {
     // Convert token to string and add additional requested information.
     NSMutableDictionary *contactDetails = [[NSMutableDictionary alloc] init];
-    
+
     // Treat name and phone a little differently since we need to format them
     if (inputContact.name)
         [contactDetails setValue:[NSPersonNameComponentsFormatter localizedStringFromPersonNameComponents:inputContact.name style:NSPersonNameComponentsFormatterStyleDefault options:0] forKey:@"name"];
@@ -118,7 +119,7 @@ RCT_EXPORT_MODULE();
         if ([inputContact.postalAddress respondsToSelector:NSSelectorFromString(elem)])
             [contactDetails setValue:[inputContact.postalAddress valueForKey:elem] forKey:elem];
     }
-    
+
     return contactDetails;
 }
 
@@ -237,7 +238,7 @@ RCT_EXPORT_METHOD(paymentRequestWithCardForm:(NSString *)amount resolver:(RCTPro
     promiseResolver = resolve;
     promiseRejector = reject;
     resolved = FALSE;
-    
+
     [self beginCustomPaymentWithAmount:amount];
 }
 

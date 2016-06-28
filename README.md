@@ -1,6 +1,6 @@
 # React Native : Stripe SDK
 
-Wraps the native [Stripe iOS SDK](https://github.com/stripe/stripe-ios) for React Native apps. 
+Wraps the native [Stripe iOS SDK](https://github.com/stripe/stripe-ios) for React Native apps.
 
 ## Features
 - Collect credit card information and convert to a Stripe token, all in native code.
@@ -77,14 +77,15 @@ var AppEntry = React.createClass({
           var options = {
             fallbackOnCardForm: false,
             shippingAddressFields: StripeNative.iOSConstants.PKAddressFieldAll,
+            currencyCode: 'USD'
           };
           StripeNative.paymentRequestWithApplePay(SOME_ITEMS, "Llama Kitty Shop", options).then(function (obj) {
             var token = obj[0],
               shippingInfo = obj[1],
               billingInfo = obj[2];
-  
+
             // (Create charge here)
-  
+
             (chargeWasSuccessful ? StripeNative.success : StripeNative.failure)();
           }, function (err) {
             alert(err);
