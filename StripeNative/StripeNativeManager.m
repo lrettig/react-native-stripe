@@ -75,6 +75,7 @@ RCT_EXPORT_MODULE();
 - (void)_beginApplePayWithArgs: (NSDictionary *)args items:(NSArray *)items error:(NSError**)error {
 
     NSUInteger shippingAddressFieldsMask = args[@"shippingAddressFields"] ? [args[@"shippingAddressFields"] integerValue] : 0;
+    NSUInteger billingAddressFieldsMask = args[@"billingAddressFields"] ? [args[@"billingAddressFields"] integerValue] : PKAddressFieldPostalAddress;
     NSString* currencyCode = args[@"currencyCode"] ? args[@"currencyCode"] : @"USD";
     // Setup product, discount, shipping and total
     NSMutableArray *summaryItems = [NSMutableArray array];
@@ -90,7 +91,7 @@ RCT_EXPORT_MODULE();
 
     PKPaymentRequest *paymentRequest = [Stripe paymentRequestWithMerchantIdentifier:applePayMerchantId];
     [paymentRequest setRequiredShippingAddressFields:shippingAddressFieldsMask];
-    [paymentRequest setRequiredBillingAddressFields:PKAddressFieldPostalAddress];
+    [paymentRequest setRequiredBillingAddressFields:billingAddressFieldsMask];
     [paymentRequest setCurrencyCode: currencyCode];
     paymentRequest.paymentSummaryItems = summaryItems;
     paymentRequest.merchantIdentifier = applePayMerchantId;
