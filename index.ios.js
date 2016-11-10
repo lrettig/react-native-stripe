@@ -69,8 +69,8 @@ var NativeStripe = {
     return StripeNativeManager.paymentRequestWithApplePay(summaryItems, options);
   },
 
-  paymentRequestWithCardForm(items, email) {
-    return StripeNativeManager.paymentRequestWithCardForm(getTotal(items).toFixed(2).toString(), email);
+  paymentRequestWithCardForm(items, email, currencySymbol) {
+    return StripeNativeManager.paymentRequestWithCardForm(getTotal(items).toFixed(2).toString(), email, currencySymbol);
   },
 
 };
