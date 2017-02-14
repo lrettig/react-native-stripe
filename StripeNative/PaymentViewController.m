@@ -30,7 +30,14 @@
     }
 
     // Setup save button
-    NSString *title = [NSString stringWithFormat:@"Pay $%@", self.amount];
+    float num = [self.amount floatValue];
+    num = num/100;
+    NSString *title;
+    if (self.currencySymbol != nil){
+        title = [NSString stringWithFormat:@"Pay %@%.2f", self.currencySymbol, num ];
+    } else {
+        title = [NSString stringWithFormat:@"Pay $%.2f", num ];
+    }
     UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStyleDone target:self action:@selector(save:)];
     UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel:)];
     saveButton.enabled = NO;
@@ -45,6 +52,9 @@
     
     // Setup email field: hack it up to look just like the Stripe field
     UITextField *emailField = [[UITextField alloc] init];
+    if (self.email != nil){
+        emailField.text=self.email;
+    }
     [emailField setPlaceholder:@"Email address"];
     UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 20, 44)];
     emailField.leftView = paddingView;

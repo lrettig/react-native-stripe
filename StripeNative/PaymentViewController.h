@@ -21,6 +21,8 @@
 @interface PaymentViewController : UIViewController
 
 @property (nonatomic) NSString* amount;
+@property (nonatomic) NSString* email;
+@property (nonatomic) NSString* currencySymbol;
 @property (nonatomic, weak) id<PaymentViewControllerDelegate> delegate;
 
 @end
