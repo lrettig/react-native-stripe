@@ -9,26 +9,31 @@ var iOSConstants = {
   PKAddressFieldEmail:          1 << 2,
   PKAddressFieldName:           1 << 3,
 };
+
 iOSConstants.PKAddressFieldAll =
   iOSConstants.PKAddressFieldPostalAddress|
   iOSConstants.PKAddressFieldPhone|
   iOSConstants.PKAddressFieldEmail|
   iOSConstants.PKAddressFieldName;
 
+var Error = {
+  SNUserCanceled: 1000, // user canceled Apple Pay
+  SNOtherError:   2000, // misc. error
+};
+var StripeNativeDomain = "com.lockehart.lib.StripeNative";
+
 var NativeStripe = {
 
-  paymentRequestWithCardForm: StripeNativeManager.paymentRequestWithCardForm,
   openPaymentSetup: StripeNativeManager.openPaymentSetup,
+  createTokenWithCard: StripeNativeManager.createTokenWithCard,
   success: StripeNativeManager.success,
   failure: StripeNativeManager.failure,
 
-  init: (stripePublishableKey) => {
-    // Apple does not seem to care what we set this to.
-    var applePayMerchantId = "unused";
+  init: (stripePublishableKey, applePayMerchantId) => {
     return StripeNativeManager.initWithStripePublishableKey(stripePublishableKey, applePayMerchantId);
   },
 
-  canMakePayments: () => {
+  canMakePayments() {
     return StripeNativeManager.canMakePayments().then(function (retList) {
       // Data always comes back from native as a list.  We wrap this method to
       // fix that.
@@ -36,7 +41,7 @@ var NativeStripe = {
     });
   },
 
-  canMakePaymentsUsingNetworks: () => {
+  canMakePaymentsUsingNetworks() {
     return StripeNativeManager.canMakePaymentsUsingNetworks().then(function (retList) {
       // Data always comes back from native as a list.  We wrap this method to
       // fix that.
@@ -44,7 +49,7 @@ var NativeStripe = {
     });
   },
 
-  paymentRequestWithApplePay: (items, merchantName, options) => {
+  paymentRequestWithApplePay(items, merchantName, options) {
     options = options || {};
 
     // Set up total as last item
@@ -63,11 +68,18 @@ var NativeStripe = {
 
     return StripeNativeManager.paymentRequestWithApplePay(summaryItems, options);
   },
+
+  paymentRequestWithCardForm(items) {
+    return StripeNativeManager.paymentRequestWithCardForm(getTotal(items).toFixed(2).toString());
+  },
+
 };
 
-getTotal = (items) => {
+function getTotal (items) {
   return items.map(i => i.amount).reduce((a,b)=>a+b, 0);
-};
+}
 
 NativeStripe.iOSConstants = iOSConstants;
+NativeStripe.Error = Error;
+NativeStripe.StripeNativeDomain = StripeNativeDomain;
 module.exports = NativeStripe;

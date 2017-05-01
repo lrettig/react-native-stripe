@@ -7,17 +7,20 @@
 
 #import <Stripe/Stripe.h>
 
-#import "RCTEventDispatcher.h"
-#import "RCTLog.h"
+#import <React/RCTEventDispatcher.h>
+#import "RCTUtils.h"
 
 #import "PaymentViewController.h"
 #import "StripeNativeManager.h"
 
 @import PassKit;
 
-NSString *const StripeNativeDomain = @"com.lockehart.lib";
+NSString *const StripeNativeDomain = @"com.lockehart.lib.StripeNative";
 typedef NS_ENUM(NSInteger, SNErrorCode) {
-    SNOtherError = 10, // Generic error
+    // RN uses three-digit error codes.  Our error domain is different so it shouldn't
+    // matter if there's overlap but use four digit codes just to be safe.
+    SNUserCanceled  = 1000, // User canceled Apple Pay
+    SNOtherError    = 2000, // Generic error
 };
 
 @implementation StripeNativeManager
@@ -27,11 +30,12 @@ typedef NS_ENUM(NSInteger, SNErrorCode) {
     NSString *applePayMerchantId;
     UIViewController *rootViewController;
     PKPaymentSummaryItem *summaryItem;
-    
+
     // Save these promises so we can resolve them later.
     RCTPromiseResolveBlock promiseResolver;
     RCTPromiseRejectBlock promiseRejector;
-    
+    BOOL resolved;
+
     // This completion dismisses the Apple Pay stuff
     void (^applePayCompletion)(PKPaymentAuthorizationStatus);
 }
@@ -69,12 +73,13 @@ RCT_EXPORT_MODULE();
 }
 
 - (void)_beginApplePayWithArgs: (NSDictionary *)args items:(NSArray *)items error:(NSError**)error {
-    
+
     NSUInteger shippingAddressFieldsMask = args[@"shippingAddressFields"] ? [args[@"shippingAddressFields"] integerValue] : 0;
-    
+    NSUInteger billingAddressFieldsMask = args[@"billingAddressFields"] ? [args[@"billingAddressFields"] integerValue] : PKAddressFieldPostalAddress;
+    NSString* currencyCode = args[@"currencyCode"] ? args[@"currencyCode"] : @"USD";
     // Setup product, discount, shipping and total
     NSMutableArray *summaryItems = [NSMutableArray array];
-    
+
     for (NSDictionary *i in items) {
         NSLog(@"Item: %@", i[@"label"]);
         PKPaymentSummaryItem *item = [[PKPaymentSummaryItem alloc] init];
@@ -83,10 +88,11 @@ RCT_EXPORT_MODULE();
         [summaryItems addObject:item];
     }
     summaryItem = [summaryItems lastObject];
-    
+
     PKPaymentRequest *paymentRequest = [Stripe paymentRequestWithMerchantIdentifier:applePayMerchantId];
     [paymentRequest setRequiredShippingAddressFields:shippingAddressFieldsMask];
-    [paymentRequest setRequiredBillingAddressFields:PKAddressFieldPostalAddress];
+    [paymentRequest setRequiredBillingAddressFields:billingAddressFieldsMask];
+    [paymentRequest setCurrencyCode: currencyCode];
     paymentRequest.paymentSummaryItems = summaryItems;
     paymentRequest.merchantIdentifier = applePayMerchantId;
     PKPaymentAuthorizationViewController *auth = [[PKPaymentAuthorizationViewController alloc] initWithPaymentRequest:paymentRequest];
@@ -102,7 +108,7 @@ RCT_EXPORT_MODULE();
 - (NSDictionary *)getContactDetails:(PKContact*)inputContact {
     // Convert token to string and add additional requested information.
     NSMutableDictionary *contactDetails = [[NSMutableDictionary alloc] init];
-    
+
     // Treat name and phone a little differently since we need to format them
     if (inputContact.name)
         [contactDetails setValue:[NSPersonNameComponentsFormatter localizedStringFromPersonNameComponents:inputContact.name style:NSPersonNameComponentsFormatterStyleDefault options:0] forKey:@"name"];
@@ -114,7 +120,7 @@ RCT_EXPORT_MODULE();
         if ([inputContact.postalAddress respondsToSelector:NSSelectorFromString(elem)])
             [contactDetails setValue:[inputContact.postalAddress valueForKey:elem] forKey:elem];
     }
-    
+
     return contactDetails;
 }
 
@@ -124,12 +130,13 @@ RCT_EXPORT_MODULE();
 {
     // Hold onto this until we know whether the payment succeeded or failed
     applePayCompletion = completion;
-    
+
     // Exchange payment for a Stripe token
     [[STPAPIClient sharedClient] createTokenWithPayment:payment completion:^(STPToken *token, NSError *error) {
+        resolved = TRUE;
         if (error) {
             completion(PKPaymentAuthorizationStatusFailure);
-            promiseRejector(error);
+            promiseRejector(nil, nil, error);
         }
         else {
             promiseResolver(@[
@@ -145,6 +152,11 @@ RCT_EXPORT_MODULE();
 {
     NSLog(@"Payment Authorization Controller dismissed.");
     [rootViewController dismissViewControllerAnimated:YES completion:nil];
+
+    if (!resolved) {
+        resolved = TRUE;
+        promiseRejector([NSString stringWithFormat:@"%ld", (long)SNUserCanceled], @"User canceled Apple Pay", [[NSError alloc] initWithDomain:StripeNativeDomain code:SNUserCanceled userInfo:@{NSLocalizedDescriptionKey:@"User canceled Apple Pay"}]);
+    }
 }
 
 # pragma mark - Card form
@@ -159,15 +171,22 @@ RCT_EXPORT_MODULE();
 
 - (void)paymentViewController:(PaymentViewController *)controller didFinishWithToken:(STPToken *)token email:(NSString *)email error:(NSError *)error {
     [rootViewController dismissViewControllerAnimated:YES completion:^{
+        resolved = TRUE;
         if (error) {
-            promiseRejector(error);
+            promiseRejector(nil, nil, error);
         } else {
-            // Convert token to string and add additional information
-            promiseResolver(@[
-                              token.tokenId,
-                              @{@"emailAddress": email},
-                              @{},
-                              ]);
+            // Check if the user canceled the form.
+            if (!token) {
+                promiseRejector([NSString stringWithFormat:@"%ld", (long)SNUserCanceled], @"User canceled payment", [[NSError alloc] initWithDomain:StripeNativeDomain code:SNUserCanceled userInfo:@{NSLocalizedDescriptionKey:@"User canceled payment"}]);
+            }
+            else {
+                // Convert token to string and add additional information.
+                promiseResolver(@[
+                                  token.tokenId,
+                                  @{@"emailAddress": email},
+                                  @{},
+                                  ]);
+            }
         }
     }];
 }
@@ -194,31 +213,34 @@ RCT_EXPORT_METHOD(openPaymentSetup) {
 }
 
 RCT_EXPORT_METHOD(paymentRequestWithApplePay: (NSArray *)items args:(NSDictionary *)args resolver:(RCTPromiseResolveBlock)resolve rejector:(RCTPromiseRejectBlock)reject) {
-    
+
     NSError *error = nil;
-    
+
     // First try Apple pay
     if ([self _canMakePayments]) {
         promiseResolver = resolve;
         promiseRejector = reject;
+        resolved = FALSE;
         [self _beginApplePayWithArgs:args items:items error:&error];
         if (error)
-            reject(error);
+            reject(nil, nil, error);
     }
     else if (args[@"fallbackOnCardForm"]) {
-        [self paymentRequestWithCardForm:items resolver:resolve rejector:reject];
+        // The last item for Apple Pay is the "summary" item with the total.
+        NSString *amount = [[items lastObject][@"amount"] stringValue];
+        [self paymentRequestWithCardForm:amount resolver:resolve rejector:reject];
     }
     else {
-        reject([NSError errorWithDomain:StripeNativeDomain code:SNOtherError userInfo:@{NSLocalizedDescriptionKey:@"Apple Pay not enabled and fallback option false"}]);
+        reject(nil, nil, [NSError errorWithDomain:StripeNativeDomain code:SNOtherError userInfo:@{NSLocalizedDescriptionKey:@"Apple Pay not enabled and fallback option false"}]);
     }
 }
 
-RCT_EXPORT_METHOD(paymentRequestWithCardForm:(NSArray *)items resolver:(RCTPromiseResolveBlock)resolve rejector:(RCTPromiseRejectBlock)reject) {
+RCT_EXPORT_METHOD(paymentRequestWithCardForm:(NSString *)amount resolver:(RCTPromiseResolveBlock)resolve rejector:(RCTPromiseRejectBlock)reject) {
     promiseResolver = resolve;
     promiseRejector = reject;
-    
-    // Get total from last item
-    [self beginCustomPaymentWithAmount:[[items lastObject][@"amount"] stringValue]];
+    resolved = FALSE;
+
+    [self beginCustomPaymentWithAmount:amount];
 }
 
 RCT_EXPORT_METHOD(success: (RCTPromiseResolveBlock)resolve rejector:(RCTPromiseRejectBlock)reject)
@@ -233,6 +255,33 @@ RCT_EXPORT_METHOD(failure: (RCTPromiseResolveBlock)resolve rejector:(RCTPromiseR
     if (applePayCompletion)
         applePayCompletion(PKPaymentAuthorizationStatusFailure);
     resolve(@[[NSNull null]]);
+}
+
+RCT_EXPORT_METHOD(createTokenWithCard:(NSDictionary *)cardParams resolver:(RCTPromiseResolveBlock)resolve rejector:(RCTPromiseRejectBlock)reject) {
+    STPCardParams *card = [[STPCardParams alloc] init];
+    NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
+    for (NSString *propertyName in [STPCardParams propertyNamesToFormFieldNamesMapping]) {
+        id value = [cardParams objectForKey:propertyName];
+        if ([propertyName isEqualToString:@"expMonth"] || [propertyName isEqualToString:@"expYear"]) {
+            NSNumber *number = value;
+            if ([number isKindOfClass:[NSString class]]) {
+                number = [numberFormatter numberFromString:value];
+            }
+            if (number) {
+                [card setValue:number forKey:propertyName];
+            }
+        } else {
+            [card setValue:value forKey:propertyName];
+        }
+    }
+    [[STPAPIClient sharedClient] createTokenWithCard:card
+                                          completion:^(STPToken *token, NSError *error) {
+                                              if (error == nil) {
+                                                  resolve(token.tokenId);
+                                              } else {
+                                                  reject(nil, nil, error);
+                                              }
+                                          }];
 }
 
 @end

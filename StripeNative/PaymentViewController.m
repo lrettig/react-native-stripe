@@ -99,7 +99,12 @@
 }
 
 - (void)cancel:(id)sender {
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    // Just call the delegate method without any data.  It can decide how to handle this.
+    // (Alternatively, we could call a separate delegate method in case of cancel, or even
+    // have both save and cancel cases call a second didFinish method like
+    // PKPaymentAuthorizationViewController.)
+    NSLog(@"User canceled payment view controller");
+    [self.delegate paymentViewController:self didFinishWithToken:nil email:nil error:nil];
 }
 
 - (void)save:(id)sender {

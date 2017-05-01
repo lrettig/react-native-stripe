@@ -1,6 +1,7 @@
 var React = require('react-native');
 var StripeNative = require('react-native-stripe');
 
+const MERCHANT_ID = "<YOUR APPLE PAY MERCHANT ID>";
 const STRIPE_KEY = "<YOUR STRIPE KEY>";
 
 const SOME_ITEMS = [
@@ -24,23 +25,23 @@ var {
 
 var AppEntry = React.createClass({
 
-  componentDidMount: function () {
-    StripeNative.init(STRIPE_KEY);
+  componentDidMount() {
+    StripeNative.init(STRIPE_KEY, MERCHANT_ID);
   },
 
-  getInitialState: function () {
+  getInitialState() {
     return {
       error: null,
     }
   },
 
-  applePaySuccess: function () { this.applePay("success") },
+  applePaySuccess() { this.applePay("success") },
 
-  applePayAllInfo: function () { this.applePay("success", "allinfo") },
+  applePayAllInfo() { this.applePay("success", "allinfo") },
 
-  applePayFailure: function () { this.applePay() },
+  applePayFailure() { this.applePay() },
 
-  applePay: function (success, allInfo) {
+  applePay(success, allInfo) {
     // These come back as promises.
     Promise.all([StripeNative.canMakePayments(), StripeNative.canMakePaymentsUsingNetworks()]).then(
       function (canMakePayments) {
@@ -74,7 +75,7 @@ var AppEntry = React.createClass({
       }.bind(this));
   },
 
-  cardForm: function () {
+  cardForm() {
     StripeNative.paymentRequestWithCardForm(SOME_ITEMS).then(function (obj) {
       var token = obj[0],
         shippingInfo = obj[1];
@@ -89,7 +90,26 @@ var AppEntry = React.createClass({
     }.bind(this))
   },
 
-  render: function () {
+  cardNumber() {
+    var STPCardParams = {
+      number:   4242424242424242,
+      cvc:      123,
+      expMonth: 12,
+      expYear:  2025,
+    };
+
+    StripeNative.createTokenWithCard(STPCardParams).then(function (obj) {
+
+      alert("Got token: " + obj);
+
+      // (Create charge here)
+
+    }, function (err) {
+      this.setState({error: "Error getting token"});
+    }.bind(this))
+  },
+
+  render() {
     return (
       <View style={styles.container}>
         <Text style={styles.error}>
@@ -134,6 +154,14 @@ var AppEntry = React.createClass({
           underlayColor="#99D9F4">
           <Text style={styles.buttonText}>
             Try Card Form
+          </Text>
+        </TouchableHighlight>
+        <TouchableHighlight
+          style={styles.selectButton}
+          onPress={this.cardNumber}
+          underlayColor="#99D9F4">
+          <Text style={styles.buttonText}>
+            Try Create with Card Number
           </Text>
         </TouchableHighlight>
 

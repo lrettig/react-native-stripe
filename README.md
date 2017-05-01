@@ -1,6 +1,6 @@
 # React Native : Stripe SDK
 
-Wraps the native [Stripe iOS SDK](https://github.com/stripe/stripe-ios) for React Native apps. 
+Wraps the native [Stripe iOS SDK](https://github.com/stripe/stripe-ios) for React Native apps.
 
 ## Features
 - Collect credit card information and convert to a Stripe token, all in native code.
@@ -9,7 +9,21 @@ Wraps the native [Stripe iOS SDK](https://github.com/stripe/stripe-ios) for Reac
 - Check if the device supports Apple Pay, and if so, whether it has cards configured.
 - If not, you can prompt the user to configure Apple Pay and enter a card.
 - Specify which fields to request from the user in Apple Pay: name, postal address, phone number, and/or email.
+- Collect credit card details in JavaScript and convert them to a card token (without needing to use the Stripe JS SDK).
 - All methods return promises.
+
+## Caveats
+- Stripe only allows you to exchange card information for a payment token on
+  the frontend. This *does not actually verify the payment information*. It just
+  checks that it _looks_ reasonable, e.g., that the number has the right format,
+  that the expiration date is in the future, etc. You should get this token, and
+  then immediately pass it to a backend function that validates it, either by
+  creating a charge, or else by attaching it to a customer. See the [Stripe API]
+  (https://stripe.com/docs/api) for more information, and [this helpful blog
+  post] (http://www.larryullman.com/2013/01/30/handling-stripe-errors/) for more
+  on handling Stripe errors.
+- As a corollary, you should only embed your _Stripe publishable key_ in a
+  frontend app.
 
 ## Installation
 
@@ -61,14 +75,15 @@ var AppEntry = React.createClass({
           var options = {
             fallbackOnCardForm: false,
             shippingAddressFields: StripeNative.iOSConstants.PKAddressFieldAll,
+            currencyCode: 'USD'
           };
           StripeNative.paymentRequestWithApplePay(SOME_ITEMS, "Llama Kitty Shop", options).then(function (obj) {
             var token = obj[0],
               shippingInfo = obj[1],
               billingInfo = obj[2];
-  
+
             // (Create charge here)
-  
+
             (chargeWasSuccessful ? StripeNative.success : StripeNative.failure)();
           }, function (err) {
             alert(err);
@@ -84,6 +99,7 @@ var AppEntry = React.createClass({
 
 - ```cd node_modules/react-native-stripe/example/```
 - Edit `index.ios.js` and replace `<YOUR STRIPE KEY>` with your Stripe publishable key.
+- Optionally, replace `<YOUR APPLE PAY MERCHANT ID>` with your merchant ID.  Note that this doesn't matter for testing in the simulator.
 - ```npm install```
 - ```react-native start```
 - ```open ios/example.xcodeproj```
@@ -94,6 +110,7 @@ var AppEntry = React.createClass({
 - Apple does not currently allow us to get any billing contact info other than a postal address.
 - Cannot yet check if payment is possible or request payment using a specific card brand ("Visa", "Amex", etc.).
 - Currently only supports Stripe as payment processor.
+- The manual card entry form is very vanilla and probably not usable in production.  You should show a user's cart to them at the point of checkout, and present errors directly on this form.  It's meant as a starting point.
 
 ## Copyright and license
 
