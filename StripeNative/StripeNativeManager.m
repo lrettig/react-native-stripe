@@ -7,7 +7,7 @@
 
 #import <Stripe/Stripe.h>
 
-#import "RCTEventDispatcher.h"
+#import <React/RCTEventDispatcher.h>
 #import "RCTUtils.h"
 
 #import "PaymentViewController.h"
