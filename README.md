@@ -13,19 +13,17 @@ Wraps the native [Stripe iOS SDK](https://github.com/stripe/stripe-ios) for Reac
 
 ## Installation
 
-- Install [cocoapods](https://guides.cocoapods.org/using/getting-started.html) (usually `sudo gem install cocoapods`)
+- Install [Stripe iOS SDK](https://stripe.com/docs/mobile/ios)
 - Install the module:
 ```
 npm i react-native-stripe --save
 ```
-This will also install the required pods using cocoapods.
 - Run ```open node_modules/react-native-stripe```
-- Drag `StripeNative.xcodeproj` into your `Libraries` group (NOTE copy the `xcodeproj` folder not `xcworkspace`!)
-- Drag `Pods/Pods.xcodeproj` into your `Libraries` group
+- Drag `StripeNative.xcodeproj` into your `Libraries` group
 - Select your main project in the navigator to bring up settings
 - Under `Build Phases` expand the `Link Binary With Libraries` header
 - Scroll down and click the `+` to add a library
-- Find and add `libStripeNative.a` and `libStripe.a` under the `Workspace` group (NOTE: do not add `libPods.a`)
+- Find and add `libStripeNative.a` and `libStripe.a` under the `Workspace` group
 - ⌘+B
 
 ## Example
@@ -99,7 +97,7 @@ var AppEntry = React.createClass({
 
 ## Copyright and license
 
-Code and documentation copyright 2016 Lane M Rettig. Code released under [the MIT license](https://github.com/lrettig/react-native-stripe/blob/master/LICENSE).
+Code and documentation copyright 2016-2017 Lane M Rettig. Code released under [the MIT license](https://github.com/lrettig/react-native-stripe/blob/master/LICENSE).
 
 [react-native]: http://facebook.github.io/react-native/
 [stripe-sdk]: https://github.com/stripe/stripe-ios
