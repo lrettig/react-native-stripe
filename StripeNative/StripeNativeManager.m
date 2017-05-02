@@ -139,6 +139,7 @@ RCT_EXPORT_MODULE();
             promiseRejector(nil, nil, error);
         }
         else {
+            completion(PKPaymentAuthorizationStatusSuccess);
             promiseResolver(@[
                               token.tokenId,
                               [self getContactDetails:payment.shippingContact],
