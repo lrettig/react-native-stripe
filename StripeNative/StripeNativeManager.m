@@ -7,8 +7,8 @@
 
 #import <Stripe/Stripe.h>
 
-#import <React/RCTEventDispatcher.h>
-#import "RCTUtils.h"
+#import "React/RCTEventDispatcher.h"
+#import "React/RCTUtils.h"
 
 #import "PaymentViewController.h"
 #import "StripeNativeManager.h"
