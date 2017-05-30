@@ -183,7 +183,7 @@ RCT_EXPORT_MODULE();
                 // Convert token to string and add additional information.
                 promiseResolver(@[
                                   token.tokenId,
-                                  @{@"emailAddress": email},
+                                  @{},
                                   @{},
                                   ]);
             }
