@@ -7,8 +7,8 @@
 
 #import <Stripe/Stripe.h>
 
-#import <React/RCTEventDispatcher.h>
-#import "RCTUtils.h"
+#import "React/RCTEventDispatcher.h"
+#import "React/RCTUtils.h"
 
 #import "PaymentViewController.h"
 #import "StripeNativeManager.h"
@@ -183,7 +183,7 @@ RCT_EXPORT_MODULE();
                 // Convert token to string and add additional information.
                 promiseResolver(@[
                                   token.tokenId,
-                                  @{@"emailAddress": email},
+                                  @{},
                                   @{},
                                   ]);
             }
