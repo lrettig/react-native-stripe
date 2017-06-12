@@ -30,7 +30,7 @@
     }
 
     // Setup save button
-    NSString *title = [NSString stringWithFormat:@"Pay $%@", self.amount];
+    NSString *title = [NSString stringWithFormat:@"Pay %@%@", self.currency, self.amount];
     UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStyleDone target:self action:@selector(save:)];
     UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel:)];
     saveButton.enabled = NO;
