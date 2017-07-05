@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "A3B345E78B69520AC98822C93DEFACE150C81645",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "1DF63C5B8814492D030C2A6247051230915D5511" : 9223372036854775807,
+    "A3B345E78B69520AC98822C93DEFACE150C81645" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "218AAF75-D61D-4ACF-B6A8-C42F40562327",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "1DF63C5B8814492D030C2A6247051230915D5511" : "..",
+    "A3B345E78B69520AC98822C93DEFACE150C81645" : "react-native-stripe\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "StripeNative",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "StripeNative.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "bitbucket.org:flyvictor\/mobile-seats.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "1DF63C5B8814492D030C2A6247051230915D5511"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:flyvictor\/react-native-stripe.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "A3B345E78B69520AC98822C93DEFACE150C81645"
+    }
+  ]
+}

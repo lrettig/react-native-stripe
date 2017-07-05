@@ -1,3 +1,4 @@
+//TESTING
 var React = require('react-native');
 var NativeModules = React.NativeModules;
 var { StripeNativeManager } = NativeModules;
@@ -69,8 +70,9 @@ var NativeStripe = {
     return StripeNativeManager.paymentRequestWithApplePay(summaryItems, options);
   },
 
-  paymentRequestWithCardForm(items) {
-    return StripeNativeManager.paymentRequestWithCardForm(getTotal(items).toFixed(2).toString());
+  paymentRequestWithCardForm(items, options) {
+    console.log('paymentRequestWithCardForm', items, options);
+    return StripeNativeManager.paymentRequestWithCardForm(getTotal(items).toFixed(2).toString(), options);
   },
 
 };

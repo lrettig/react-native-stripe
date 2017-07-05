@@ -5,10 +5,10 @@
 //  Copyright (c) 2015 Lane Rettig. All rights reserved.
 //
 
-#import <Stripe/Stripe.h>
+#import <Stripe.h>
 
-#import <React/RCTEventDispatcher.h>
-#import "RCTUtils.h"
+#import "React/RCTEventDispatcher.h"
+#import "React/RCTUtils.h"
 
 #import "PaymentViewController.h"
 #import "StripeNativeManager.h"
@@ -161,9 +161,13 @@ RCT_EXPORT_MODULE();
 
 # pragma mark - Card form
 
-- (void)beginCustomPaymentWithAmount:(NSString *)amount {
+- (void)beginCustomPaymentWithAmount:(NSString *)amount args:(NSDictionary *)args {
+
+    NSString* currencyCode = args[@"currencySymbol"] ? args[@"currencySymbol"] : @"£";
+    
     PaymentViewController *paymentViewController = [[PaymentViewController alloc] initWithNibName:nil bundle:nil];
     paymentViewController.amount = amount;
+    paymentViewController.currency = currencyCode;
     paymentViewController.delegate = self;
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:paymentViewController];
     [rootViewController presentViewController:navController animated:YES completion:nil];
@@ -183,7 +187,7 @@ RCT_EXPORT_MODULE();
                 // Convert token to string and add additional information.
                 promiseResolver(@[
                                   token.tokenId,
-                                  @{@"emailAddress": email},
+                                  @{},
                                   @{},
                                   ]);
             }
@@ -228,19 +232,19 @@ RCT_EXPORT_METHOD(paymentRequestWithApplePay: (NSArray *)items args:(NSDictionar
     else if (args[@"fallbackOnCardForm"]) {
         // The last item for Apple Pay is the "summary" item with the total.
         NSString *amount = [[items lastObject][@"amount"] stringValue];
-        [self paymentRequestWithCardForm:amount resolver:resolve rejector:reject];
+        [self paymentRequestWithCardForm:amount args:args resolver:resolve rejector:reject];
     }
     else {
         reject(nil, nil, [NSError errorWithDomain:StripeNativeDomain code:SNOtherError userInfo:@{NSLocalizedDescriptionKey:@"Apple Pay not enabled and fallback option false"}]);
     }
 }
 
-RCT_EXPORT_METHOD(paymentRequestWithCardForm:(NSString *)amount resolver:(RCTPromiseResolveBlock)resolve rejector:(RCTPromiseRejectBlock)reject) {
+RCT_EXPORT_METHOD(paymentRequestWithCardForm: (NSString *)amount args:(NSDictionary *)args resolver:(RCTPromiseResolveBlock)resolve rejector:(RCTPromiseRejectBlock)reject) {
     promiseResolver = resolve;
     promiseRejector = reject;
     resolved = FALSE;
 
-    [self beginCustomPaymentWithAmount:amount];
+    [self beginCustomPaymentWithAmount:amount args:args];
 }
 
 RCT_EXPORT_METHOD(success: (RCTPromiseResolveBlock)resolve rejector:(RCTPromiseRejectBlock)reject)

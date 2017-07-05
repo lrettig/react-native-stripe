@@ -8,14 +8,14 @@
 //  See https://github.com/stripe/stripe-ios.
 //
 
-#import <Stripe/Stripe.h>
+#import <Stripe.h>
 #import <QuartzCore/QuartzCore.h>
 
 #import "PaymentViewController.h"
 
 @interface PaymentViewController () <STPPaymentCardTextFieldDelegate>
 @property (weak, nonatomic) STPPaymentCardTextField *paymentTextField;
-@property (weak, nonatomic) UITextField *emailField;
+// @property (weak, nonatomic) UITextField *emailField;
 @property (weak, nonatomic) UIActivityIndicatorView *activityIndicator;
 @end
 
@@ -30,7 +30,7 @@
     }
 
     // Setup save button
-    NSString *title = [NSString stringWithFormat:@"Pay $%@", self.amount];
+    NSString *title = [NSString stringWithFormat:@"Pay %@%@", self.currency, self.amount];
     UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStyleDone target:self action:@selector(save:)];
     UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel:)];
     saveButton.enabled = NO;
@@ -43,23 +43,23 @@
     self.paymentTextField = paymentTextField;
     [self.view addSubview:paymentTextField];
     
-    // Setup email field: hack it up to look just like the Stripe field
-    UITextField *emailField = [[UITextField alloc] init];
-    [emailField setPlaceholder:@"Email address"];
-    UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 20, 44)];
-    emailField.leftView = paddingView;
-    emailField.leftViewMode = UITextFieldViewModeAlways;
-    emailField.layer.cornerRadius = 5.0f;
-    emailField.layer.borderColor = [[UIColor colorWithRed:171.0/255.0
-                                                    green:171.0/255.0
-                                                     blue:171.0/255.0
-                                                    alpha:1.0] CGColor];
-    emailField.layer.borderWidth = 1.0f;
-    [emailField addTarget:self
-                  action:@selector(textFieldDidChange)
-        forControlEvents:UIControlEventEditingChanged];
-    self.emailField = emailField;
-    [self.view addSubview:emailField];
+    // // Setup email field: hack it up to look just like the Stripe field
+    // UITextField *emailField = [[UITextField alloc] init];
+    // [emailField setPlaceholder:@"Email address"];
+    // UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 20, 44)];
+    // emailField.leftView = paddingView;
+    // emailField.leftViewMode = UITextFieldViewModeAlways;
+    // emailField.layer.cornerRadius = 5.0f;
+    // emailField.layer.borderColor = [[UIColor colorWithRed:171.0/255.0
+    //                                                 green:171.0/255.0
+    //                                                  blue:171.0/255.0
+    //                                                 alpha:1.0] CGColor];
+    // emailField.layer.borderWidth = 1.0f;
+    // [emailField addTarget:self
+    //               action:@selector(textFieldDidChange)
+    //     forControlEvents:UIControlEventEditingChanged];
+    // self.emailField = emailField;
+    // [self.view addSubview:emailField];
     
     // Setup Activity Indicator
     UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
@@ -68,34 +68,34 @@
     [self.view addSubview:activityIndicator];
 }
 
-- (BOOL)emailFieldIsValid {
-    NSString *emailRegex =
-    @"(?:[a-z0-9!#$%\\&'*+/=?\\^_`{|}~-]+(?:\\.[a-z0-9!#$%\\&'*+/=?\\^_`{|}"
-    @"~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\"
-    @"x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-"
-    @"z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5"
-    @"]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-"
-    @"9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21"
-    @"-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
-    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES[c] %@", emailRegex];
-    return [emailTest evaluateWithObject:self.emailField.text];
-}
+// - (BOOL)emailFieldIsValid {
+//     NSString *emailRegex =
+//     @"(?:[a-z0-9!#$%\\&'*+/=?\\^_`{|}~-]+(?:\\.[a-z0-9!#$%\\&'*+/=?\\^_`{|}"
+//     @"~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\"
+//     @"x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-"
+//     @"z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5"
+//     @"]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-"
+//     @"9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21"
+//     @"-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
+//     NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES[c] %@", emailRegex];
+//     return [emailTest evaluateWithObject:self.emailField.text];
+// }
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     CGFloat padding = 15;
     CGFloat width = CGRectGetWidth(self.view.frame) - (padding * 2);
     self.paymentTextField.frame = CGRectMake(padding, padding, width, 44);
-    self.emailField.frame = CGRectMake(padding, padding*2+44, width, 44);
+    // self.emailField.frame = CGRectMake(padding, padding*2+44, width, 44);
     self.activityIndicator.center = self.view.center;
 }
 
 - (void)paymentCardTextFieldDidChange:(nonnull STPPaymentCardTextField *)textField {
-    self.navigationItem.rightBarButtonItem.enabled = textField.isValid && [self emailFieldIsValid];
+    self.navigationItem.rightBarButtonItem.enabled = textField.isValid; // && [self emailFieldIsValid];
 }
 
 - (void)textFieldDidChange {
-    self.navigationItem.rightBarButtonItem.enabled = self.paymentTextField.isValid && [self emailFieldIsValid];
+    self.navigationItem.rightBarButtonItem.enabled = self.paymentTextField.isValid; // && [self emailFieldIsValid];
 }
 
 - (void)cancel:(id)sender {
@@ -108,7 +108,7 @@
 }
 
 - (void)save:(id)sender {
-    if (!([self.paymentTextField isValid] && [self emailFieldIsValid])) {
+    if (!([self.paymentTextField isValid])) {
         return;
     }
     if (![Stripe defaultPublishableKey]) {
@@ -129,7 +129,7 @@
                                                   [self.delegate paymentViewController:self didFinishWithToken:nil email:nil error:error];
                                               }
                                               NSLog(@"Successfully got token: %@", token);
-                                              [self.delegate paymentViewController:self didFinishWithToken:token email:self.emailField.text error:nil];
+                                              [self.delegate paymentViewController:self didFinishWithToken:token email:nil error:nil];
                                           }];
 }
 
