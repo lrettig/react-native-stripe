@@ -5,7 +5,7 @@
 //  Copyright (c) 2015 Lane Rettig. All rights reserved.
 //
 
-#import <Stripe/Stripe.h>
+#import <Stripe.h>
 
 #import "React/RCTEventDispatcher.h"
 #import "React/RCTUtils.h"

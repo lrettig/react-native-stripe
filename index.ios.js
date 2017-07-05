@@ -1,3 +1,4 @@
+//TESTING
 var React = require('react-native');
 var NativeModules = React.NativeModules;
 var { StripeNativeManager } = NativeModules;

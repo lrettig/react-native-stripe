@@ -211,6 +211,7 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../react-native/React/**",
 					"$(SRCROOT)/example/node_modules/react-native/React/**",
+					"$(SRCROOT)/../../ios/Pods/**",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = StripeNative;
@@ -230,6 +231,7 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../react-native/React/**",
 					"$(SRCROOT)/example/node_modules/react-native/React/**",
+					"$(SRCROOT)/../../ios/Pods/**",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = StripeNative;

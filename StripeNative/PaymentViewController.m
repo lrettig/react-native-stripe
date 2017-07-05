@@ -8,7 +8,7 @@
 //  See https://github.com/stripe/stripe-ios.
 //
 
-#import <Stripe/Stripe.h>
+#import <Stripe.h>
 #import <QuartzCore/QuartzCore.h>
 
 #import "PaymentViewController.h"
